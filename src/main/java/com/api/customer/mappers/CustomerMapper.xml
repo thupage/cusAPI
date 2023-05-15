@@ -1,7 +1,7 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.api.customer.mappers.sql.customerMapper">
+<mapper namespace="com.api.customer.mappers.customerMapper">
 
     <select id="getListOfCustomer" parameterType="SearchRequest" resultMap="result">
     SELECT 
@@ -88,7 +88,7 @@
     </resultMap>
 
     <resultMap id = "result" type = "CustomerEntity">
-        <id property = "customerId" column = "customer_id"/>
+        <result property = "customerId" column = "customer_id"/>
         <result property = "firstName" column = "first_name"/>
         <result property = "lastName" column = "last_name"/>
         <result property = "idCardNo" column = "id_card_no"/>
@@ -100,30 +100,30 @@
         <collection property="address" ofType="AddressEntity">
             <result property = "street" column = "street"/> 
             <collection property="ward" ofType="WardEntity">  
-                <id property = "wardId" column = "ward_id"/>
+                <result property = "wardId" column = "ward_id"/>
                 <result property = "wardName" column = "ward_name"/>
             </collection>
             <collection property="district" ofType="DistrictEntity">  
-                <id property = "districtId" column = "district_id"/> 
+                <result property = "districtId" column = "district_id"/> 
                 <result property = "districtName" column = "district_name"/> 
             </collection>
             <collection property="province" ofType="ProvinceEntity">  
-                <id property = "provinceId" column = "province_id"/>
+                <result property = "provinceId" column = "province_id"/>
                 <result property = "provinceName" column = "province_name"/>
             </collection>
         </collection>
         <collection property="nationality" ofType="NationalityEntity">  
-            <id property = "nationalityId" column = "nationality_id"/>  
+            <result property = "nationalityId" column = "nationality_id"/>  
             <result property = "nationlityName" column = "nationality_name"/>
         </collection>
         <collection property="occupation" ofType="OccupationEntity">  
-            <id property = "occupationId" column = "occupation_id"/>  
+            <result property = "occupationId" column = "occupation_id"/>  
             <result property = "occupationName" column = "occupation_name"/>
         </collection>
         <result property = "married" column = "married"/>
         <result property = "passportNo" column = "passport_no"/>
-        <collection id = "agency" ofType = "AgencyEntity">
-            <id property = "agencyId" column = "agency_id"/>  
+        <collection property = "agency" ofType = "AgencyEntity">
+            <result property = "agencyId" column = "agency_id"/>  
             <result property = "agencyName" column = "agency_name"/>
         </collection>
     </resultMap>

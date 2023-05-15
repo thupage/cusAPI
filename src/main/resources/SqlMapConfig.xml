@@ -16,7 +16,7 @@
     </typeAliases>
 
     <mappers>
-        <mapper resource="com/api/customer/mappers/sql/CustomerMapper.xml" />
+        <mapper resource="com/api/customer/mappers/CustomerMapper.xml" />
     </mappers>
  
 </configuration>
