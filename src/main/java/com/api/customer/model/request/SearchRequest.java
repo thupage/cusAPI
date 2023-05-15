@@ -25,6 +25,6 @@ public class SearchRequest {
     private int districtId;
     private int provinceId;
     private int agencyId;
-    // private int page;
-    // private int itemPerPage;
+    private int page;
+    private int itemPerPage;
 }
