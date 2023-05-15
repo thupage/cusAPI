@@ -1,0 +1,131 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.api.customer.mappers.sql.customerMapper">
+
+    <select id="getListOfCustomer" parameterType="SearchRequest" resultMap="result">
+    SELECT 
+        CUSTOMER.customer_id AS customer_id, CUSTOMER.first_name AS first_name, 
+        CUSTOMER.last_name AS last_name, CUSTOMER.id_card_no AS id_card_no, 
+        CUSTOMER.dob AS dob, CUSTOMER.phone AS phone, CUSTOMER.email AS email, 
+        CUSTOMER.user_name AS user_name, CUSTOMER.status AS status,
+        ADDRESS.street AS street,
+        WARD.ward_id AS ward_id, WARD.ward_name AS ward_name, 
+        DISTRICT.district_id AS district_id, DISTRICT.district_name AS district_name,
+        PROVINCE.province_id AS province_id, PROVINCE.province_name AS province_name,
+        NATIONALITY.nationality_id AS nationality_id, NATIONALITY.nationality_name AS nationality_name,
+        OCCUPATION.occupation_id AS occupation_id, OCCUPATION.occupation_name AS occupation_name,
+        CUSTOMER.married AS married, CUSTOMER.passport_no AS passport_no,
+        AGENCY.agency_id AS agency_id, AGENCY.agency_name AS agency_name
+    FROM 
+        CUSTOMER
+    LEFT JOIN 
+        ADDRESS
+    ON
+        CUSTOMER.street = ADDRESS.street
+    LEFT JOIN 
+        WARD
+    ON
+        ADDRESS.ward_id = WARD.ward_id
+    LEFT JOIN 
+        DISTRICT
+    ON
+        ADDRESS.district_id = DISTRICT.district_id
+    LEFT JOIN 
+        PROVINCE
+    ON
+        ADDRESS.province_id = PROVINCE.province_id
+    LEFT JOIN 
+        NATIONALITY
+    ON
+        CUSTOMER.nationality_id = NATIONALITY.nationality_id
+    LEFT JOIN 
+        OCCUPATION
+    ON
+        CUSTOMER.occupation_id = OCCUPATION.occupation_id
+    LEFT JOIN 
+        AGENCY
+    ON
+        CUSTOMER.agency_id = AGENCY.agency_id        
+    WHERE
+        CUSTOMER.first_name = '%${searchRequest.firstName}%' 
+        OR 
+        CUSTOMER.last_name = '%${searchRequest.lastName}%' 
+        OR 
+        CUSTOMER.id_card_no = '%${searchRequest.idCardNo}%'
+        OR 
+        CUSTOMER.dob BETWEEN #{searchRequest.dobStartDate} AND #{searchRequest.dobEndDate} 
+        OR 
+        CUSTOMER.phone = '%${searchRequest.phone}%' 
+        OR 
+        CUSTOMER.email = '%${searchRequest.email}%'
+        OR 
+        ADDRESS.street = '%${searchRequest.street}%'
+        OR
+        WARD.ward_id = '%${searchRequest.wardId}%'
+        OR
+        DISTRICT.district_id = '%${searchRequest.districtId}%'
+        OR
+        PROVINCE.province_id = '%${searchRequest.provinceId}%'
+        OR 
+        AGENCY.agency_id = '%${searchRequest.agencyId}%'
+        <!-- ORDER BY 
+        ${searchRequest.firstName} DESC -->
+        <!-- LIMIT #{searchRequest.itemPerPage} OFFSET #{searchRequest.itemPerPage} -->
+    </select>
+
+    <select id="countCustomer" parameterType="CustomerEntity" resultMap="searchCount">
+    SELECT 
+        COUNT(*)
+    FROM
+        CUSTOMER
+    WHERE
+        customer_id LIKE '%${customerEntity.customer_id}%'
+    </select>
+
+    <resultMap id="searchCount" type="int">
+        <result property = "itemCount" column = "count(*)"/>
+    </resultMap>
+
+    <resultMap id = "result" type = "CustomerEntity">
+        <id property = "customerId" column = "customer_id"/>
+        <result property = "firstName" column = "first_name"/>
+        <result property = "lastName" column = "last_name"/>
+        <result property = "idCardNo" column = "id_card_no"/>
+        <result property = "dob" column = "dob"/>
+        <result property = "phone" column = "phone"/>
+        <result property = "email" column = "email"/>
+        <result property = "userName" column = "user_name"/>
+        <result property = "status" column = "status"/>
+        <collection property="address" ofType="AddressEntity">
+            <result property = "street" column = "street"/> 
+            <collection property="ward" ofType="WardEntity">  
+                <id property = "wardId" column = "ward_id"/>
+                <result property = "wardName" column = "ward_name"/>
+            </collection>
+            <collection property="district" ofType="DistrictEntity">  
+                <id property = "districtId" column = "district_id"/> 
+                <result property = "districtName" column = "district_name"/> 
+            </collection>
+            <collection property="province" ofType="ProvinceEntity">  
+                <id property = "provinceId" column = "province_id"/>
+                <result property = "provinceName" column = "province_name"/>
+            </collection>
+        </collection>
+        <collection property="nationality" ofType="NationalityEntity">  
+            <id property = "nationalityId" column = "nationality_id"/>  
+            <result property = "nationlityName" column = "nationality_name"/>
+        </collection>
+        <collection property="occupation" ofType="OccupationEntity">  
+            <id property = "occupationId" column = "occupation_id"/>  
+            <result property = "occupationName" column = "occupation_name"/>
+        </collection>
+        <result property = "married" column = "married"/>
+        <result property = "passportNo" column = "passport_no"/>
+        <collection id = "agency" ofType = "AgencyEntity">
+            <id property = "agencyId" column = "agency_id"/>  
+            <result property = "agencyName" column = "agency_name"/>
+        </collection>
+    </resultMap>
+
+</mapper>
