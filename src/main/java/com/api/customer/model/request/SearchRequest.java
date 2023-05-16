@@ -1,5 +1,7 @@
 package com.api.customer.model.request;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,8 +18,8 @@ public class SearchRequest {
     private String firstName;
     private String lastName;
     private String idCardNo;
-    private String dobStartDate;
-    private String dobEndDate;
+    private Date dobStartDate;
+    private Date dobEndDate;
     private String phone;
     private String email;
     private String street;

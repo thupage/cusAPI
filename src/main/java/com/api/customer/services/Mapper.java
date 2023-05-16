@@ -27,7 +27,8 @@ public class Mapper {
                         i.getNationality(),
                         i.getOccupation(),
                         i.getMarried(), i.getPassportNo(),
-                        i.getAgency()))
+                        i.getAgency()
+                        ))
                 .collect(Collectors.toList());
     }
 }
