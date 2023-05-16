@@ -23,6 +23,12 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    /**
+     * Returns a list of customers based on the search query.
+     * 
+     * @param searchRequest The object of the search request.
+     * @return The SearchResponse object contains the customer search results.
+     */
     public SearchResponse getAllOfCustomer(SearchRequest searchRequest) {
         CustomerEntity customerEntity = new CustomerEntity();
         customerEntity.setFirstName(searchRequest.getFirstName());
@@ -32,10 +38,9 @@ public class CustomerService {
         customerEntity.setEmail(searchRequest.getEmail());
 
         List<CustomerEntity> customerEntities = this.customerRepository.getListAllOfCustomer(searchRequest);
-        Mapper mapper = new Mapper(customerEntities);
         SearchResponse searchResponse = new SearchResponse();
-        searchResponse.setItemCount(this.customerRepository.countCustomer(customerEntity));
-        searchResponse.setResult(mapper.map());
+        searchResponse.setItemCount(this.customerRepository.countCustomer(searchRequest));
+        searchResponse.setResult(customerEntities);
         return searchResponse;
     }
 }

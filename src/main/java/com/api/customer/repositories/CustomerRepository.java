@@ -24,11 +24,23 @@ public class CustomerRepository {
         this.customerMapper = customerMapper;
     }
 
+    /**
+     * Returns a list of all customers based on the search query.
+     * 
+     * @param searchRequest The object of the search request.
+     * @return List of clients found.
+     */
     public List<CustomerEntity> getListAllOfCustomer(SearchRequest searchRequest) {
         return customerMapper.getListOfCustomer(searchRequest);
     }
 
-    public int countCustomer(CustomerEntity customerEntity) {
-        return customerMapper.countCustomer(customerEntity);
+    /**
+     * Count the number of customers based on the search request.
+     * 
+     * @param searchRequest The object of the search request.
+     * @return Number of clients found.
+     */
+    public int countCustomer(SearchRequest searchRequest) {
+        return customerMapper.countCustomer(searchRequest);
     }
 }

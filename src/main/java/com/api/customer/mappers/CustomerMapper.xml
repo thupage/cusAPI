@@ -47,7 +47,7 @@
         AGENCY
     ON
         CUSTOMER.agency_id = AGENCY.agency_id        
-    WHERE
+    <!-- WHERE
         CUSTOMER.first_name = '%${searchRequest.firstName}%' 
         OR 
         CUSTOMER.last_name = '%${searchRequest.lastName}%' 
@@ -68,7 +68,7 @@
         OR
         PROVINCE.province_id = '%${searchRequest.provinceId}%'
         OR 
-        AGENCY.agency_id = '%${searchRequest.agencyId}%'
+        AGENCY.agency_id = '%${searchRequest.agencyId}%' -->
         <!-- ORDER BY 
         ${searchRequest.firstName} DESC -->
         <!-- LIMIT #{searchRequest.itemPerPage} OFFSET #{searchRequest.page} -->
@@ -116,13 +116,12 @@
         </collection>
         <collection property="nationality" ofType="com.api.customer.entities.NationalityEntity">  
             <result property = "nationalityId" column = "nationality_id"/>  
-            <result property = "nationlityName" column = "nationality_name"/>
+            <result property = "nationalityName" column = "nationality_name"/>
         </collection>
         <collection property="occupation" ofType="com.api.customer.entities.OccupationEntity">  
             <result property = "occupationId" column = "occupation_id"/>  
             <result property = "occupationName" column = "occupation_name"/>
         </collection>
-        
         <collection property = "agency" ofType = "com.api.customer.entities.AgencyEntity">
             <result property = "agencyId" column = "agency_id"/>  
             <result property = "agencyName" column = "agency_name"/>

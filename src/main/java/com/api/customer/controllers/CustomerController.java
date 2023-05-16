@@ -27,6 +27,12 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+    /**
+     * Get a list of customers based on the search query.
+     * 
+     * @param searchRequest The request object looks for the client.
+     * @return ResponseEntity contains a SearchResponse object in the response body.
+     */
     @GetMapping(value = "/customer")
     public ResponseEntity<SearchResponse> getAllOfCustomers(@Valid @RequestBody SearchRequest searchRequest) {
         return ResponseEntity.ok(customerService.getAllOfCustomer(searchRequest));
