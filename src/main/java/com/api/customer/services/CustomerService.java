@@ -41,6 +41,12 @@ public class CustomerService {
 
     private static Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
+    /**
+     * Returns a list of customers based on the search query.
+     * 
+     * @param searchRequest The object of the search request.
+     * @return The SearchResponse object contains the customer search results.
+     */
     public SearchResponse getAllOfCustomer(SearchRequest searchRequest) {
         CustomerResponse customerResponse = new CustomerResponse();
         AddressEntity addressEntity = new AddressEntity();

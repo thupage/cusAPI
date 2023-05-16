@@ -29,6 +29,11 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
+    /**
+     * 
+     * @param searchRequest
+     * @return
+     */
     @GetMapping(value = "/customer")
     public ResponseEntity<SearchResponse> getAllOfCustomers(@Valid @RequestBody SearchRequest searchRequest) {
         return ResponseEntity.ok(customerService.getAllOfCustomer(searchRequest));

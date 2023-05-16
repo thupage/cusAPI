@@ -17,8 +17,20 @@ import com.api.customer.model.response.CustomerResponse;
 @Mapper
 public interface CustomerMapper {
 
+    /**
+     * Returns a list of customers based on the search query.
+     * 
+     * @param searchRequest The object of the search request.
+     * @return List of clients found.
+     */
     public List<CustomerResponse> getListOfCustomer(@Param("searchRequest") SearchRequest searchRequest);
 
+    /**
+     * Count the number of customers based on the search request.
+     * 
+     * @param searchRequest The object of the search request.
+     * @return Number of clients found.
+     */
     public int countCustomer(@Param("searchRequest") SearchRequest searchRequest);
 
     /**

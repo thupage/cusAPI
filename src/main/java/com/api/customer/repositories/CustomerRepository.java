@@ -25,10 +25,21 @@ public class CustomerRepository {
         this.customerMapper = customerMapper;
     }
 
+    /**
+     * 
+     * @param searchRequest
+     * @return
+     */
     public List<CustomerResponse> getListAllOfCustomer(SearchRequest searchRequest) {
         return customerMapper.getListOfCustomer(searchRequest);
     }
 
+    /**
+     * Returns a list of all customers based on the search query.
+     * 
+     * @param searchRequest The object of the search request.
+     * @return List of clients found.
+     */
     public int countCustomer(SearchRequest searchRequest) {
         return customerMapper.countCustomer(searchRequest);
     }
