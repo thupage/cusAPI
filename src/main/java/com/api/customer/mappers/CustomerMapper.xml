@@ -74,13 +74,61 @@
         <!-- LIMIT #{searchRequest.itemPerPage} OFFSET #{searchRequest.page} -->
     </select>
 
-    <select id="countCustomer" parameterType="com.api.customer.entities.CustomerEntity" resultMap="searchCount">
+    <select id="countCustomer" parameterType="com.api.customer.model.request.SearchRequest" resultMap="searchCount">
     SELECT 
         COUNT(*)
     FROM
+        CUSTOMER 
+    <!-- WHERE
+        CUSTOMER.first_name = '%${searchRequest.firstName}%'  -->
+    </select>
+
+    <select id="getDetailOfCustomer" parameterType="int" resultMap="result">
+    SELECT 
+        CUSTOMER.customer_id AS customer_id, CUSTOMER.first_name AS first_name, 
+        CUSTOMER.last_name AS last_name, CUSTOMER.id_card_no AS id_card_no, 
+        CUSTOMER.dob AS dob, CUSTOMER.phone AS phone, CUSTOMER.email AS email, 
+        CUSTOMER.user_name AS user_name, CUSTOMER.status AS status,
+        ADDRESS.street AS street,
+        WARD.ward_id AS ward_id, WARD.ward_name AS ward_name, 
+        DISTRICT.district_id AS district_id, DISTRICT.district_name AS district_name,
+        PROVINCE.province_id AS province_id, PROVINCE.province_name AS province_name,
+        NATIONALITY.nationality_id AS nationality_id, NATIONALITY.nationality_name AS nationality_name,
+        OCCUPATION.occupation_id AS occupation_id, OCCUPATION.occupation_name AS occupation_name,
+        CUSTOMER.married AS married, CUSTOMER.passport_no AS passport_no,
+        AGENCY.agency_id AS agency_id, AGENCY.agency_name AS agency_name
+    FROM 
         CUSTOMER
+    LEFT JOIN 
+        ADDRESS
+    ON
+        CUSTOMER.street = ADDRESS.street
+    LEFT JOIN 
+        WARD
+    ON
+        ADDRESS.ward_id = WARD.ward_id
+    LEFT JOIN 
+        DISTRICT
+    ON
+        ADDRESS.district_id = DISTRICT.district_id
+    LEFT JOIN 
+        PROVINCE
+    ON
+        ADDRESS.province_id = PROVINCE.province_id
+    LEFT JOIN 
+        NATIONALITY
+    ON
+        CUSTOMER.nationality_id = NATIONALITY.nationality_id
+    LEFT JOIN 
+        OCCUPATION
+    ON
+        CUSTOMER.occupation_id = OCCUPATION.occupation_id
+    LEFT JOIN 
+        AGENCY
+    ON
+        CUSTOMER.agency_id = AGENCY.agency_id        
     WHERE
-        customer_id LIKE '%${customerEntity.customerId}%'
+        CUSTOMER.customer_id = #{customerId}  
     </select>
 
     <resultMap id="searchCount" type="int">

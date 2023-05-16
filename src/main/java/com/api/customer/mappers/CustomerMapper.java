@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.api.customer.entities.CustomerEntity;
 import com.api.customer.model.request.SearchRequest;
+import com.api.customer.model.response.CustomerResponse;
 
 /**
  * Customer Mapper.
@@ -16,8 +17,10 @@ import com.api.customer.model.request.SearchRequest;
 @Mapper
 public interface CustomerMapper {
 
-    public List<CustomerEntity> getListOfCustomer(@Param("searchRequest") SearchRequest searchRequest);
+    public List<CustomerResponse> getListOfCustomer(@Param("searchRequest") SearchRequest searchRequest);
 
-    public int countCustomer(@Param("customerEntity") CustomerEntity customerEntity);
+    public int countCustomer(@Param("searchRequest") SearchRequest searchRequest);
+
+    public CustomerEntity getDetailOfCustomer(@Param("customerId") int customerId);
 
 }

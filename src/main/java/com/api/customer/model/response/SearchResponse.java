@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.api.customer.entities.CustomerEntity;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,5 +19,5 @@ import lombok.NoArgsConstructor;
 @Component
 public class SearchResponse {
     private int itemCount;
-    private List<CustomerEntity> result;
+    private List<CustomerResponse> result;
 }
