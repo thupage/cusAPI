@@ -34,6 +34,12 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getAllOfCustomer(searchRequest));
     }
 
+    /**
+     * Get details of a customer based on customer ID.
+     * 
+     * @param customerId ID of the customer to get details.
+     * @return ResponseEntity contains a CustomerEntity object in the response body.
+     */
     @GetMapping(value = "/customer/{customerId}")
     public ResponseEntity<CustomerEntity> getSalaryDetailsById(@Valid @PathVariable int customerId) {
         return ResponseEntity.ok(customerService.getCustomerDetailById(customerId));

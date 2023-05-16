@@ -21,6 +21,12 @@ public interface CustomerMapper {
 
     public int countCustomer(@Param("searchRequest") SearchRequest searchRequest);
 
+    /**
+     * Get details of a customer based on customer ID.
+     * 
+     * @param customerId ID of the customer to get details.
+     * @return The CustomerEntity object contains the customer's details.
+     */
     public CustomerEntity getDetailOfCustomer(@Param("customerId") int customerId);
 
 }

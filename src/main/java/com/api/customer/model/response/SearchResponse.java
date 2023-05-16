@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Search Response.
+ * The SearchResponse object contains the search results.
  * 
  * @author thutrang
  */

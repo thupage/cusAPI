@@ -65,6 +65,13 @@ public class CustomerService {
         return searchResponse;
     }
 
+    /**
+     * Get details of a customer based on customer ID.
+     * 
+     * @param customerId ID of the customer to get details.
+     * @return The CustomerEntity object contains the customer's details.
+     * @throws IdNotFoundException If the client ID does not exist.
+     */
     public CustomerEntity getCustomerDetailById(int customerId) {
         if (!customerRepository.customerIdExist(customerId)) {
             logger.error(messageSource.getMessage(ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND, null, Locale.ENGLISH));

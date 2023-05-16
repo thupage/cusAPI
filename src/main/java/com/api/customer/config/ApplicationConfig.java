@@ -15,6 +15,11 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 @ComponentScan("com.api.customer.repositories")
 public class ApplicationConfig {
 
+    /**
+     * Create a MessageSource bean to read language documents.
+     * 
+     * @return The configured MessageSource object.
+     */
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();

@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Search Request.
+ * The SearchRequest object contains the search information.
  * 
  * @author thutrang
  */

@@ -33,10 +33,22 @@ public class CustomerRepository {
         return customerMapper.countCustomer(searchRequest);
     }
 
+    /**
+     * Get details of a customer based on customer ID.
+     * 
+     * @param customerId ID of the customer to get details.
+     * @return The CustomerEntity object contains the customer's details.
+     */
     public CustomerEntity getDetailOfCustomerById(int customerId) {
         return customerMapper.getDetailOfCustomer(customerId);
     }
 
+    /**
+     * Check the existence of a customer based on the customer ID.
+     * 
+     * @param customerId ID of the customer to check.
+     * @return true if customer exists, false if not.
+     */
     public Boolean customerIdExist(int customerId) {
         return customerMapper.getDetailOfCustomer(customerId) != null;
     }

@@ -6,6 +6,10 @@ import org.springframework.context.annotation.ComponentScan;
 
 /**
  * Customer Application.
+ * 
+ * @ComponentScan to scan and search for components in the "com.api.customer.*"
+ *                package.
+ * 
  * @author thutrang
  */
 @SpringBootApplication
