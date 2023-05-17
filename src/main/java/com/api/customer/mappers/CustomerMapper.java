@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.api.customer.entities.CustomerEntity;
 import com.api.customer.model.request.SearchRequest;
+import com.api.customer.model.request.UpdateRequest;
 import com.api.customer.model.response.CustomerResponse;
 
 /**

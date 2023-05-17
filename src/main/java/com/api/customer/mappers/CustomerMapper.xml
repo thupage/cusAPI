@@ -47,31 +47,29 @@
         AGENCY
     ON
         CUSTOMER.agency_id = AGENCY.agency_id        
-    <!-- WHERE
-        CUSTOMER.first_name = '%${searchRequest.firstName}%' 
+    WHERE
+        CUSTOMER.first_name LIKE '%${searchRequest.firstName}%' 
         OR 
-        CUSTOMER.last_name = '%${searchRequest.lastName}%' 
+        CUSTOMER.last_name LIKE '%${searchRequest.lastName}%' 
         OR 
-        CUSTOMER.id_card_no = '%${searchRequest.idCardNo}%'
+        CUSTOMER.id_card_no LIKE '%${searchRequest.idCardNo}%'
         OR 
         CUSTOMER.dob BETWEEN #{searchRequest.dobStartDate} AND #{searchRequest.dobEndDate} 
         OR 
-        CUSTOMER.phone = '%${searchRequest.phone}%' 
+        CUSTOMER.phone = '{searchRequest.phone}' 
         OR 
-        CUSTOMER.email = '%${searchRequest.email}%'
+        CUSTOMER.email = '${searchRequest.email}'
         OR 
-        ADDRESS.street = '%${searchRequest.street}%'
+        ADDRESS.street LIKE '%${searchRequest.street}%'
         OR
-        WARD.ward_id = '%${searchRequest.wardId}%'
+        WARD.ward_id = '${searchRequest.wardId}'
         OR
-        DISTRICT.district_id = '%${searchRequest.districtId}%'
+        DISTRICT.district_id = '${searchRequest.districtId}'
         OR
-        PROVINCE.province_id = '%${searchRequest.provinceId}%'
+        PROVINCE.province_id = '${searchRequest.provinceId}'
         OR 
-        AGENCY.agency_id = '%${searchRequest.agencyId}%' -->
-        <!-- ORDER BY 
-        ${searchRequest.firstName} DESC -->
-        <!-- LIMIT #{searchRequest.itemPerPage} OFFSET #{searchRequest.page} -->
+        AGENCY.agency_id = '${searchRequest.agencyId}'
+        LIMIT #{searchRequest.itemPerPage} OFFSET #{searchRequest.page}
     </select>
 
     <select id="countCustomer" parameterType="com.api.customer.model.request.SearchRequest" resultMap="searchCount">
@@ -79,8 +77,56 @@
         COUNT(*)
     FROM
         CUSTOMER 
-    <!-- WHERE
-        CUSTOMER.first_name = '%${searchRequest.firstName}%'  -->
+    LEFT JOIN 
+        ADDRESS
+    ON
+        CUSTOMER.street = ADDRESS.street
+    LEFT JOIN 
+        WARD
+    ON
+        ADDRESS.ward_id = WARD.ward_id
+    LEFT JOIN 
+        DISTRICT
+    ON
+        ADDRESS.district_id = DISTRICT.district_id
+    LEFT JOIN 
+        PROVINCE
+    ON
+        ADDRESS.province_id = PROVINCE.province_id
+    LEFT JOIN 
+        NATIONALITY
+    ON
+        CUSTOMER.nationality_id = NATIONALITY.nationality_id
+    LEFT JOIN 
+        OCCUPATION
+    ON
+        CUSTOMER.occupation_id = OCCUPATION.occupation_id
+    LEFT JOIN 
+        AGENCY
+    ON
+        CUSTOMER.agency_id = AGENCY.agency_id        
+    WHERE
+        CUSTOMER.first_name LIKE '%${searchRequest.firstName}%' 
+        OR 
+        CUSTOMER.last_name LIKE '%${searchRequest.lastName}%' 
+        OR 
+        CUSTOMER.id_card_no LIKE '%${searchRequest.idCardNo}%'
+        OR 
+        CUSTOMER.dob BETWEEN #{searchRequest.dobStartDate} AND #{searchRequest.dobEndDate} 
+        OR 
+        CUSTOMER.phone = '{searchRequest.phone}' 
+        OR 
+        CUSTOMER.email = '${searchRequest.email}'
+        OR 
+        ADDRESS.street LIKE '%${searchRequest.street}%'
+        OR
+        WARD.ward_id = '${searchRequest.wardId}'
+        OR
+        DISTRICT.district_id = '${searchRequest.districtId}'
+        OR
+        PROVINCE.province_id = '${searchRequest.provinceId}'
+        OR 
+        AGENCY.agency_id = '${searchRequest.agencyId}' 
     </select>
 
     <select id="getDetailOfCustomer" parameterType="int" resultMap="result">

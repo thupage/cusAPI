@@ -57,6 +57,8 @@ public class CustomerService {
         customerResponse.setFirstName(searchRequest.getFirstName());
         customerResponse.setLastName(searchRequest.getLastName());
         customerResponse.setIdCardNo(searchRequest.getIdCardNo());
+        customerResponse.setDob(searchRequest.getDobStartDate());
+        customerResponse.setDob(searchRequest.getDobEndDate());
         customerResponse.setPhone(searchRequest.getPhone());
         customerResponse.setEmail(searchRequest.getEmail());
         addressEntity.setStreet(searchRequest.getStreet());
@@ -64,6 +66,7 @@ public class CustomerService {
         districtEntity.setDistrictId(searchRequest.getDistrictId());
         provinceEntity.setProvinceId(searchRequest.getProvinceId());
         agencyEntity.setAgencyId(searchRequest.getAgencyId());
+        searchRequest.setOffset((searchRequest.getPage() - 1) * searchRequest.getItemPerPage());
         List<CustomerResponse> customerResponses = this.customerRepository.getListAllOfCustomer(searchRequest);
         SearchResponse searchResponse = new SearchResponse();
         searchResponse.setItemCount(this.customerRepository.countCustomer(searchRequest));
