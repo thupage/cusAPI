@@ -19,34 +19,20 @@
         AGENCY.agency_id AS agency_id, AGENCY.agency_name AS agency_name
     FROM 
         CUSTOMER
-    LEFT JOIN 
-        ADDRESS
-    ON
-        CUSTOMER.street = ADDRESS.street
-    LEFT JOIN 
-        WARD
-    ON
-        ADDRESS.ward_id = WARD.ward_id
-    LEFT JOIN 
-        DISTRICT
-    ON
-        ADDRESS.district_id = DISTRICT.district_id
-    LEFT JOIN 
-        PROVINCE
-    ON
-        ADDRESS.province_id = PROVINCE.province_id
-    LEFT JOIN 
-        NATIONALITY
-    ON
-        CUSTOMER.nationality_id = NATIONALITY.nationality_id
-    LEFT JOIN 
-        OCCUPATION
-    ON
-        CUSTOMER.occupation_id = OCCUPATION.occupation_id
-    LEFT JOIN 
-        AGENCY
-    ON
-        CUSTOMER.agency_id = AGENCY.agency_id        
+        LEFT JOIN ADDRESS
+            ON CUSTOMER.street = ADDRESS.street
+        LEFT JOIN WARD
+            ON ADDRESS.ward_id = WARD.ward_id
+        LEFT JOIN DISTRICT
+            ON ADDRESS.district_id = DISTRICT.district_id
+        LEFT JOIN PROVINCE
+            ON ADDRESS.province_id = PROVINCE.province_id
+        LEFT JOIN NATIONALITY
+            ON CUSTOMER.nationality_id = NATIONALITY.nationality_id
+        LEFT JOIN OCCUPATION
+            ON CUSTOMER.occupation_id = OCCUPATION.occupation_id
+        LEFT JOIN AGENCY
+            ON CUSTOMER.agency_id = AGENCY.agency_id       
     WHERE
         CUSTOMER.first_name LIKE '%${searchRequest.firstName}%' 
         OR 
@@ -77,34 +63,20 @@
         COUNT(*)
     FROM
         CUSTOMER 
-    LEFT JOIN 
-        ADDRESS
-    ON
-        CUSTOMER.street = ADDRESS.street
-    LEFT JOIN 
-        WARD
-    ON
-        ADDRESS.ward_id = WARD.ward_id
-    LEFT JOIN 
-        DISTRICT
-    ON
-        ADDRESS.district_id = DISTRICT.district_id
-    LEFT JOIN 
-        PROVINCE
-    ON
-        ADDRESS.province_id = PROVINCE.province_id
-    LEFT JOIN 
-        NATIONALITY
-    ON
-        CUSTOMER.nationality_id = NATIONALITY.nationality_id
-    LEFT JOIN 
-        OCCUPATION
-    ON
-        CUSTOMER.occupation_id = OCCUPATION.occupation_id
-    LEFT JOIN 
-        AGENCY
-    ON
-        CUSTOMER.agency_id = AGENCY.agency_id        
+        LEFT JOIN ADDRESS
+            ON CUSTOMER.street = ADDRESS.street
+        LEFT JOIN WARD
+            ON ADDRESS.ward_id = WARD.ward_id
+        LEFT JOIN DISTRICT
+            ON ADDRESS.district_id = DISTRICT.district_id
+        LEFT JOIN PROVINCE
+            ON ADDRESS.province_id = PROVINCE.province_id
+        LEFT JOIN NATIONALITY
+            ON CUSTOMER.nationality_id = NATIONALITY.nationality_id
+        LEFT JOIN OCCUPATION
+            ON CUSTOMER.occupation_id = OCCUPATION.occupation_id
+        LEFT JOIN AGENCY
+            ON CUSTOMER.agency_id = AGENCY.agency_id        
     WHERE
         CUSTOMER.first_name LIKE '%${searchRequest.firstName}%' 
         OR 
@@ -145,34 +117,20 @@
         AGENCY.agency_id AS agency_id, AGENCY.agency_name AS agency_name
     FROM 
         CUSTOMER
-    LEFT JOIN 
-        ADDRESS
-    ON
-        CUSTOMER.street = ADDRESS.street
-    LEFT JOIN 
-        WARD
-    ON
-        ADDRESS.ward_id = WARD.ward_id
-    LEFT JOIN 
-        DISTRICT
-    ON
-        ADDRESS.district_id = DISTRICT.district_id
-    LEFT JOIN 
-        PROVINCE
-    ON
-        ADDRESS.province_id = PROVINCE.province_id
-    LEFT JOIN 
-        NATIONALITY
-    ON
-        CUSTOMER.nationality_id = NATIONALITY.nationality_id
-    LEFT JOIN 
-        OCCUPATION
-    ON
-        CUSTOMER.occupation_id = OCCUPATION.occupation_id
-    LEFT JOIN 
-        AGENCY
-    ON
-        CUSTOMER.agency_id = AGENCY.agency_id        
+        LEFT JOIN ADDRESS
+            ON CUSTOMER.street = ADDRESS.street
+        LEFT JOIN WARD
+            ON ADDRESS.ward_id = WARD.ward_id
+        LEFT JOIN DISTRICT
+            ON ADDRESS.district_id = DISTRICT.district_id
+        LEFT JOIN PROVINCE
+            ON ADDRESS.province_id = PROVINCE.province_id
+        LEFT JOIN NATIONALITY
+            ON CUSTOMER.nationality_id = NATIONALITY.nationality_id
+        LEFT JOIN OCCUPATION
+            ON CUSTOMER.occupation_id = OCCUPATION.occupation_id
+        LEFT JOIN AGENCY
+            ON CUSTOMER.agency_id = AGENCY.agency_id        
     WHERE
         CUSTOMER.customer_id = #{customerId}  
     </select>

@@ -30,7 +30,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     /**
-     * Get al ist of customers base on the search query.
+     * Get a list of customers base on the search query.
      * 
      * @param searchRequest The request object looks for the client.
      * @return ResponseEntity contains a SearchResponse object in the response body.

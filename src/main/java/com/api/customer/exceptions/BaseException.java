@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class Exception extends RuntimeException {
+public class BaseException extends RuntimeException {
 
     private String code;
     private String message;
@@ -26,7 +26,7 @@ public class Exception extends RuntimeException {
      * @param message    The error message.
      * @param statusCode The HTTP status code.
      */
-    public Exception(String code, String message, HttpStatus statusCode) {
+    public BaseException(String code, String message, HttpStatus statusCode) {
         this.code = code;
         this.message = message;
         this.statusCode = statusCode;
@@ -39,7 +39,7 @@ public class Exception extends RuntimeException {
      * @param exceptionResponse The exception response.
      * @param statusCode        The HTTP status code.
      */
-    public Exception(ExceptionResponse exceptionResponse, HttpStatus statusCode) {
+    public BaseException(ExceptionResponse exceptionResponse, HttpStatus statusCode) {
         this.error = exceptionResponse;
         this.statusCode = statusCode;
     }

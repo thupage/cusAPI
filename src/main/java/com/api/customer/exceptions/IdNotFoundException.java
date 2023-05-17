@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  * @author thutrang
  */
 @ResponseStatus(code = HttpStatus.NOT_FOUND)
-public class IdNotFoundException extends Exception {
+public class IdNotFoundException extends BaseException {
 
     /**
      * An exception is thrown when the ID is not found.
