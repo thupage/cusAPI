@@ -29,4 +29,5 @@ public class SearchRequest {
     private int agencyId;
     private int page;
     private int itemPerPage;
+    private int offset;
 }

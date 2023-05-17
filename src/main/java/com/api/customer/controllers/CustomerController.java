@@ -30,9 +30,10 @@ public class CustomerController {
     private CustomerService customerService;
 
     /**
+     * Get al ist of customers base on the search query.
      * 
-     * @param searchRequest
-     * @return
+     * @param searchRequest The request object looks for the client.
+     * @return ResponseEntity contains a SearchResponse object in the response body.
      */
     @GetMapping(value = "/customer")
     public ResponseEntity<SearchResponse> getAllOfCustomers(@Valid @RequestBody SearchRequest searchRequest) {
