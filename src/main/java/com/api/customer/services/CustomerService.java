@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import com.api.customer.entities.CustomerEntity;
@@ -66,5 +67,14 @@ public class CustomerService {
         }
         CustomerEntity customerEntity = this.customerRepository.getDetailOfCustomerById(customerId);
         return customerEntity;
+    }
+
+    public ResponseEntity<ExceptionResponse> updateCustomersStatus(CustomerEntity customerEntity) {
+        if (!customerRepository.customerIdExist(customerEntity.getCustomerId())) {
+            logger.error(messageSource.getMessage(ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND, null, Locale.ENGLISH));
+            throw new IdNotFoundException(new ExceptionResponse(ERROR_CODE_CUSTOMER_ID_NOT_FOUND,
+                    messageSource.getMessage(ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND, null, Locale.ENGLISH)));
+        }
+        return this.customerRepository.updateCustomerStatus(customerEntity);
     }
 }

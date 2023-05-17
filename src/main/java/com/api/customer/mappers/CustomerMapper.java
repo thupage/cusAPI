@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.http.ResponseEntity;
 
 import com.api.customer.entities.CustomerEntity;
+import com.api.customer.exceptions.ExceptionResponse;
 import com.api.customer.model.request.SearchRequest;
 import com.api.customer.model.response.CustomerResponse;
 
@@ -40,5 +42,7 @@ public interface CustomerMapper {
      * @return The CustomerEntity object contains the customer's details.
      */
     public CustomerEntity getDetailOfCustomer(@Param("customerId") int customerId);
+
+    public ResponseEntity<ExceptionResponse> updateCustomerStatus(@Param("customerId") CustomerEntity customerEntity);
 
 }

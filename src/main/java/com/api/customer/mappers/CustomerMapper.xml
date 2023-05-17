@@ -135,6 +135,16 @@
         CUSTOMER.customer_id = #{customerId}  
     </select>
 
+    <update id = "updateCustomerStatus" parameterType ="com.api.customer.entities.CustomerEntity">
+    UPDATE CUSTOMER
+    SET
+        status = #{customerEntity.status}
+    WHERE
+        customer_id = #{customerEntity.customerId}
+    AND
+        status = #{customerEntity.status}    
+    </update>
+
     <resultMap id="searchCount" type="int">
         <id property = "itemCount" column = "count(*)"/>
     </resultMap>
