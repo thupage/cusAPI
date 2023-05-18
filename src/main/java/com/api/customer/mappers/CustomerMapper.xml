@@ -133,16 +133,16 @@
             ON CUSTOMER.agency_id = AGENCY.agency_id        
     WHERE
         CUSTOMER.customer_id = #{customerId}  
-    </select>
+    </select> 
 
-    <update id = "updateCustomerStatus" parameterType ="com.api.customer.entities.CustomerEntity">
+    <update id = "batchUpdateCustomerStatus" parameterType = "com.api.customer.entities.CustomerEntity">
     UPDATE CUSTOMER
     SET
-        status = #{customerEntity.status}
+        status = #{status}
     WHERE
-        customer_id = #{customerEntity.customerId}
+        customer_id = #{customerId}
     AND
-        status = #{customerEntity.status}    
+        status = #{status}        
     </update>
 
     <resultMap id="searchCount" type="int">

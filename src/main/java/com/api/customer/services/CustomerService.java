@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND;
+import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_STATUS_IS_INVALID;
+import static com.api.customer.constants.SuccessMessage.SUCCESS_MESSAGE_UPDATE;
 import static com.api.customer.constants.ErrorCodes.ERROR_CODE_CUSTOMER_ID_NOT_FOUND;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_STATUS_INVALID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import com.api.customer.entities.CustomerEntity;
@@ -17,6 +19,7 @@ import com.api.customer.exceptions.ExceptionResponse;
 import com.api.customer.exceptions.IdNotFoundException;
 import com.api.customer.model.request.SearchRequest;
 import com.api.customer.model.response.CustomerResponse;
+import com.api.customer.model.response.MessageResponse;
 import com.api.customer.model.response.SearchResponse;
 import com.api.customer.repositories.CustomerRepository;
 
@@ -69,12 +72,13 @@ public class CustomerService {
         return customerEntity;
     }
 
-    public ResponseEntity<ExceptionResponse> updateCustomersStatus(CustomerEntity customerEntity) {
-        if (!customerRepository.customerIdExist(customerEntity.getCustomerId())) {
-            logger.error(messageSource.getMessage(ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND, null, Locale.ENGLISH));
+    public MessageResponse updateCustomersStatus(int customerId, String status) {
+        if (!customerRepository.customerIdExist(customerId)) {
             throw new IdNotFoundException(new ExceptionResponse(ERROR_CODE_CUSTOMER_ID_NOT_FOUND,
                     messageSource.getMessage(ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND, null, Locale.ENGLISH)));
+        } else {
+            customerRepository.batchUpdateCustomerStatus(customerId, status);
+            return new MessageResponse(messageSource.getMessage(SUCCESS_MESSAGE_UPDATE, null, Locale.ENGLISH));
         }
-        return this.customerRepository.updateCustomerStatus(customerEntity);
     }
 }

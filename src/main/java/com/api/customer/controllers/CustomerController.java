@@ -53,7 +53,7 @@ public class CustomerController {
     }
 
     @PatchMapping(value = "/customer/{customerId}/{status}")
-    public ResponseEntity<?> updateCustomerStatus(@Valid @RequestBody CustomerEntity customerEntity) {
-        return this.customerService.updateCustomersStatus(customerEntity);
+    public ResponseEntity<?> updateCustomerStatus(@PathVariable int customerId, @PathVariable String status) {
+        return ResponseEntity.ok(customerService.updateCustomersStatus(customerId, status));
     }
 }
