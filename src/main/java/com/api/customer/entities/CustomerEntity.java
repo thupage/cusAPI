@@ -20,6 +20,7 @@ public class CustomerEntity {
     private String lastName;
     private String idCardNo;
     private Date dob;
+    private String gender;
     private String phone;
     private String email;
     private String userName;

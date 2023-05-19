@@ -135,6 +135,32 @@
         CUSTOMER.customer_id = #{customerId}  
     </select>
 
+    <update id = "updateProfile" parameterType = "com.api.customer.model.request.UpdateRequest">
+    UPDATE 
+        CUSTOMER
+        JOIN ADDRESS
+            ON CUSTOMER.street = ADDRESS.street
+        JOIN WARD
+            ON ADDRESS.ward_id = WARD.ward_id
+    SET
+        CUSTOMER.customer_id = #{updateRequest.customerId}
+        CUSTOMER.first_name = #{updateRequest.firstName},
+        CUSTOMER.last_name = #{updateRequest.lastName},
+        CUSTOMER.id_card_no = #{updateRequest.idCardNo},
+        CUSTOMER.dob = #{updateRequest.dob},
+        CUSTOMER.gender = #{updateRequest.gender},
+        CUSTOMER.phone = #{updateRequest.phone},  
+        CUSTOMER.email = #{updateRequest.email},
+        ADDRESS.street = #{updateRequest.street},
+        ADDRESS.ward_id = #{updateRequest.wardId},
+        CUSTOMER.nationality_id = #{updateRequest.nationality},
+        CUSTOMER.occupation_id = #{updateRequest.occupation},
+        CUSTOMER.married = #{updateRequest.married},
+        CUSTOMER.passport_no = #{updateRequest.passportNo}
+    WHERE    
+        CUSTOMER.customer_id = #{customerId}    
+    </update>
+
     <update id = "batchUpdateCustomerStatus" parameterType = "com.api.customer.entities.CustomerEntity">
     UPDATE CUSTOMER
     SET

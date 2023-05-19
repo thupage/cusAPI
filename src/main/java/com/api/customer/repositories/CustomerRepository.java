@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.api.customer.entities.CustomerEntity;
 import com.api.customer.mappers.CustomerMapper;
 import com.api.customer.model.request.SearchRequest;
+import com.api.customer.model.request.UpdateRequest;
 import com.api.customer.model.response.CustomerResponse;
 
 /**
@@ -85,5 +86,9 @@ public class CustomerRepository {
      */
     public void batchUpdateCustomerStatus(int customerId, String status) {
         customerMapper.batchUpdateCustomerStatus(customerId, status);
+    }
+
+    public void requestUpdateProfile(UpdateRequest updateRequest){
+        customerMapper.updateProfile(updateRequest);
     }
 }

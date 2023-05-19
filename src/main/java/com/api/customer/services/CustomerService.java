@@ -19,6 +19,7 @@ import com.api.customer.exceptions.BadRequestException;
 import com.api.customer.exceptions.ExceptionResponse;
 import com.api.customer.exceptions.IdNotFoundException;
 import com.api.customer.model.request.SearchRequest;
+import com.api.customer.model.request.UpdateRequest;
 import com.api.customer.model.response.CustomerResponse;
 import com.api.customer.model.response.MessageResponse;
 import com.api.customer.model.response.SearchResponse;
@@ -94,6 +95,11 @@ public class CustomerService {
                     messageSource.getMessage(ERROR_MESSAGE_STATUS_IS_INVALID, null, Locale.ENGLISH)));
         }
         customerRepository.batchUpdateCustomerStatus(customerId, status);
+        return new MessageResponse(messageSource.getMessage(SUCCESS_MESSAGE_UPDATE, null, Locale.ENGLISH));
+    }
+
+    public MessageResponse updateRequestProfile(UpdateRequest updateRequest){
+        customerRepository.requestUpdateProfile(updateRequest);
         return new MessageResponse(messageSource.getMessage(SUCCESS_MESSAGE_UPDATE, null, Locale.ENGLISH));
     }
 }
