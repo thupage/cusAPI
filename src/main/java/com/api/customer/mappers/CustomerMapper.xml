@@ -133,16 +133,36 @@
             ON CUSTOMER.agency_id = AGENCY.agency_id        
     WHERE
         CUSTOMER.customer_id = #{customerId}  
-    </select> 
+    </select>
+
+    <select id="checkStatus" parameterType="String" resultMap="result">
+    SELECT *
+    FROM 
+        CUSTOMER
+        LEFT JOIN ADDRESS
+            ON CUSTOMER.street = ADDRESS.street
+        LEFT JOIN WARD
+            ON ADDRESS.ward_id = WARD.ward_id
+        LEFT JOIN DISTRICT
+            ON ADDRESS.district_id = DISTRICT.district_id
+        LEFT JOIN PROVINCE
+            ON ADDRESS.province_id = PROVINCE.province_id
+        LEFT JOIN NATIONALITY
+            ON CUSTOMER.nationality_id = NATIONALITY.nationality_id
+        LEFT JOIN OCCUPATION
+            ON CUSTOMER.occupation_id = OCCUPATION.occupation_id
+        LEFT JOIN AGENCY
+            ON CUSTOMER.agency_id = AGENCY.agency_id        
+    WHERE
+        CUSTOMER.status = #{status}  
+    </select>  
 
     <update id = "batchUpdateCustomerStatus" parameterType = "com.api.customer.entities.CustomerEntity">
     UPDATE CUSTOMER
     SET
         status = #{status}
     WHERE
-        customer_id = #{customerId}
-    AND
-        status = #{status}        
+        customer_id = #{customerId}    
     </update>
 
     <resultMap id="searchCount" type="int">

@@ -52,6 +52,13 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getCustomerDetailById(customerId));
     }
 
+    /**
+     * Update client status.
+     * 
+     * @param customerId ID of the customer to update batch.
+     * @param status     New customer's status.
+     * @return ResponseEntity contains the response body.
+     */
     @PatchMapping(value = "/customer/{customerId}/{status}")
     public ResponseEntity<?> updateCustomerStatus(@PathVariable int customerId, @PathVariable String status) {
         return ResponseEntity.ok(customerService.updateCustomersStatus(customerId, status));

@@ -41,6 +41,19 @@ public interface CustomerMapper {
      */
     public CustomerEntity getDetailOfCustomer(@Param("customerId") int customerId);
 
+    /**
+     * Check customer's status based.
+     * 
+     * @param status Status of the customer to check.
+     */
+    public CustomerEntity checkStatus(@Param("status") String status);
+
+    /**
+     * Update client status
+     * 
+     * @param customerId ID of the customer to update batch.
+     * @param status     New customer's status.
+     */
     public void batchUpdateCustomerStatus(@Param("customerId") int customerId, @Param("status") String status);
 
 }

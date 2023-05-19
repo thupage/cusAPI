@@ -64,10 +64,22 @@ public class CustomerRepository {
         return customerMapper.getDetailOfCustomer(customerId) != null;
     }
 
-    // public Boolean isValidStatus(String status){
-    // return customerMapper.batchUpdateCustomerStatus(status) != null;
-    // }
+    /**
+     * Check the valid of a customer based on the status.
+     * 
+     * @param status Status of the customer to check.
+     * @return true if status valid, false if invalid.
+     */
+    public Boolean isValidStatus(String status) {
+        return customerMapper.checkStatus(status) != null;
+    }
 
+    /**
+     * Batch update customer's status on customer ID.
+     * 
+     * @param customerId ID of the customer to update batch.
+     * @param status     New customer's status.
+     */
     public void batchUpdateCustomerStatus(int customerId, String status) {
         customerMapper.batchUpdateCustomerStatus(customerId, status);
     }

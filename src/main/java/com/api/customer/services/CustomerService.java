@@ -15,6 +15,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import com.api.customer.entities.CustomerEntity;
+import com.api.customer.exceptions.BadRequestException;
 import com.api.customer.exceptions.ExceptionResponse;
 import com.api.customer.exceptions.IdNotFoundException;
 import com.api.customer.model.request.SearchRequest;
@@ -72,13 +73,27 @@ public class CustomerService {
         return customerEntity;
     }
 
+    /**
+     * Update client status.
+     * 
+     * @param customerId ID of the customer to update.
+     * @param status     New customer's status.
+     * @return The success message.
+     * @throws IdNotFoundException If the client ID does not exist.
+     * @throws BadRequestException If customer's status invalid.
+     */
     public MessageResponse updateCustomersStatus(int customerId, String status) {
         if (!customerRepository.customerIdExist(customerId)) {
+            logger.error(messageSource.getMessage(ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND, null, Locale.ENGLISH));
             throw new IdNotFoundException(new ExceptionResponse(ERROR_CODE_CUSTOMER_ID_NOT_FOUND,
                     messageSource.getMessage(ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND, null, Locale.ENGLISH)));
-        } else {
-            customerRepository.batchUpdateCustomerStatus(customerId, status);
-            return new MessageResponse(messageSource.getMessage(SUCCESS_MESSAGE_UPDATE, null, Locale.ENGLISH));
         }
+        if (!customerRepository.isValidStatus(status)) {
+            logger.error(messageSource.getMessage(ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND, null, Locale.ENGLISH));
+            throw new BadRequestException(new ExceptionResponse(ERROR_CODE_STATUS_INVALID,
+                    messageSource.getMessage(ERROR_MESSAGE_STATUS_IS_INVALID, null, Locale.ENGLISH)));
+        }
+        customerRepository.batchUpdateCustomerStatus(customerId, status);
+        return new MessageResponse(messageSource.getMessage(SUCCESS_MESSAGE_UPDATE, null, Locale.ENGLISH));
     }
 }
