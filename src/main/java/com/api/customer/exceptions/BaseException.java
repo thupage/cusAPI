@@ -1,9 +1,15 @@
 package com.api.customer.exceptions;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * Exception class.
@@ -12,25 +18,13 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@ControllerAdvice
+@NoArgsConstructor
 public class BaseException extends RuntimeException {
 
-    private String code;
-    private String message;
-    private HttpStatus statusCode;
-    private ExceptionResponse error;
+    private ExceptionResponse errors;
 
-    /**
-     * Constructs a new Exception with the specified code, message, and status code.
-     * 
-     * @param code       The error code.
-     * @param message    The error message.
-     * @param statusCode The HTTP status code.
-     */
-    public BaseException(String code, String message, HttpStatus statusCode) {
-        this.code = code;
-        this.message = message;
-        this.statusCode = statusCode;
-    }
+    private static Logger logger = LoggerFactory.getLogger(BaseException.class);
 
     /**
      * Constructs a new Exception with the specified exception response and status
@@ -40,7 +34,13 @@ public class BaseException extends RuntimeException {
      * @param statusCode        The HTTP status code.
      */
     public BaseException(ExceptionResponse exceptionResponse, HttpStatus statusCode) {
-        this.error = exceptionResponse;
-        this.statusCode = statusCode;
+        this.errors = exceptionResponse;
+    }
+
+    @ExceptionHandler(value = { BaseException.class })
+    public ResponseEntity<?> handleException(BaseException ex) {
+        logger.error("Exception: ", ex.getMessage());
+        return new ResponseEntity<>(new ExceptionResponse(ex.getErrors().getCode(), ex.getErrors().getMessage()),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

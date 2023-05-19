@@ -1,5 +1,6 @@
 package com.api.customer.repositories;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class CustomerRepository {
     public CustomerRepository(CustomerMapper customerMapper) {
         this.customerMapper = customerMapper;
     }
+
+    List<String> newStatus = Arrays.asList("lock", "unlock");
 
     /**
      * 
@@ -62,5 +65,25 @@ public class CustomerRepository {
      */
     public Boolean customerIdExist(int customerId) {
         return customerMapper.getDetailOfCustomer(customerId) != null;
+    }
+
+    /**
+     * Check the valid of a customer based on the status.
+     * 
+     * @param status Status of the customer to check.
+     * @return true if status valid, false if invalid.
+     */
+    public Boolean isValidStatus(String status) {
+        return newStatus.contains(status);
+    }
+
+    /**
+     * Batch update customer's status on customer ID.
+     * 
+     * @param customerId ID of the customer to update batch.
+     * @param status     New customer's status.
+     */
+    public void batchUpdateCustomerStatus(int customerId, String status) {
+        customerMapper.batchUpdateCustomerStatus(customerId, status);
     }
 }
