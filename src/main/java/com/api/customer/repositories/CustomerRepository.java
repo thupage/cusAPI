@@ -1,5 +1,6 @@
 package com.api.customer.repositories;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class CustomerRepository {
     public CustomerRepository(CustomerMapper customerMapper) {
         this.customerMapper = customerMapper;
     }
+
+    List<String> newStatus = Arrays.asList("lock", "unlock");
 
     /**
      * 
@@ -71,7 +74,7 @@ public class CustomerRepository {
      * @return true if status valid, false if invalid.
      */
     public Boolean isValidStatus(String status) {
-        return customerMapper.checkStatus(status) != null;
+        return newStatus.contains(status);
     }
 
     /**
