@@ -3,17 +3,25 @@ package com.api.customer.services;
 import java.util.List;
 import java.util.Locale;
 
-import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND;
-import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_STATUS_IS_INVALID;
+import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_NOT_FOUND;
+import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_STATUS_INVALID;
+import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_REQUIRED;
+import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_MAXLENGTH_60;
+import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_MAXLENGTH_24;
 import static com.api.customer.constants.SuccessMessage.SUCCESS_MESSAGE_UPDATE;
 import static com.api.customer.constants.ErrorCodes.ERROR_CODE_CUSTOMER_ID_NOT_FOUND;
 import static com.api.customer.constants.ErrorCodes.ERROR_CODE_STATUS_INVALID;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_FIRST_NAME_REQUIRED;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_LAST_NAME_REQUIRED;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_FIRST_NAME_MAXLENGTH;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_ID_CARD_NO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
 import com.api.customer.entities.CustomerEntity;
 import com.api.customer.exceptions.BadRequestException;
 import com.api.customer.exceptions.ExceptionResponse;
@@ -65,10 +73,10 @@ public class CustomerService {
      * @throws IdNotFoundException If the client ID does not exist.
      */
     public CustomerEntity getCustomerDetailById(int customerId) {
-        if (!customerRepository.customerIdExist(customerId)) {
-            logger.error(messageSource.getMessage(ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND, null, Locale.ENGLISH));
+        if (!customerRepository.isNotFound(customerId)) {
+            logger.error(messageSource.getMessage(ERROR_MESSAGE_IS_NOT_FOUND, null, Locale.ENGLISH));
             throw new IdNotFoundException(new ExceptionResponse(ERROR_CODE_CUSTOMER_ID_NOT_FOUND,
-                    messageSource.getMessage(ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND, null, Locale.ENGLISH)));
+                    messageSource.getMessage(ERROR_MESSAGE_IS_NOT_FOUND, null, Locale.ENGLISH)));
         }
         CustomerEntity customerEntity = this.customerRepository.getDetailOfCustomerById(customerId);
         return customerEntity;
@@ -84,22 +92,48 @@ public class CustomerService {
      * @throws BadRequestException If customer's status invalid.
      */
     public MessageResponse updateCustomersStatus(int customerId, String status) {
-        if (!customerRepository.customerIdExist(customerId)) {
-            logger.error(messageSource.getMessage(ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND, null, Locale.ENGLISH));
+        if (!customerRepository.isNotFound(customerId)) {
+            logger.error(messageSource.getMessage(ERROR_MESSAGE_IS_NOT_FOUND, null, Locale.ENGLISH));
             throw new IdNotFoundException(new ExceptionResponse(ERROR_CODE_CUSTOMER_ID_NOT_FOUND,
-                    messageSource.getMessage(ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND, null, Locale.ENGLISH)));
+                    messageSource.getMessage(ERROR_MESSAGE_IS_NOT_FOUND, null, Locale.ENGLISH)));
         }
-        if (!customerRepository.isValidStatus(status)) {
-            logger.error(messageSource.getMessage(ERROR_MESSAGE_STATUS_IS_INVALID, null, Locale.ENGLISH));
+        if (!customerRepository.isBadRequest(status)) {
+            logger.error(messageSource.getMessage(ERROR_MESSAGE_IS_STATUS_INVALID, null, Locale.ENGLISH));
             throw new BadRequestException(new ExceptionResponse(ERROR_CODE_STATUS_INVALID,
-                    messageSource.getMessage(ERROR_MESSAGE_STATUS_IS_INVALID, null, Locale.ENGLISH)));
+                    messageSource.getMessage(ERROR_MESSAGE_IS_STATUS_INVALID, null, Locale.ENGLISH)));
         }
         customerRepository.batchUpdateCustomerStatus(customerId, status);
         return new MessageResponse(messageSource.getMessage(SUCCESS_MESSAGE_UPDATE, null, Locale.ENGLISH));
     }
 
-    public MessageResponse updateRequestProfile(UpdateRequest updateRequest){
-        customerRepository.requestUpdateProfile(updateRequest);
+    public MessageResponse updateRequestProfile(UpdateRequest updateRequest) {
+        if (!customerRepository.isNotFound(updateRequest.getCustomerId())) {
+            logger.error(messageSource.getMessage(ERROR_MESSAGE_IS_NOT_FOUND, null, Locale.ENGLISH));
+            throw new IdNotFoundException(new ExceptionResponse(ERROR_CODE_CUSTOMER_ID_NOT_FOUND,
+                    messageSource.getMessage(ERROR_MESSAGE_IS_NOT_FOUND, null, Locale.ENGLISH)));
+        } else if (updateRequest.getFirstName().isEmpty()) {
+            logger.error(messageSource.getMessage(ERROR_MESSAGE_IS_REQUIRED, null, Locale.ENGLISH));
+            throw new BadRequestException(new ExceptionResponse(ERROR_CODE_FIRST_NAME_REQUIRED,
+                    messageSource.getMessage(ERROR_MESSAGE_IS_REQUIRED, null, Locale.ENGLISH)));
+        }
+        // else if (StringUtils.truncate(updateRequest.getFirstName(), 60) != null) {
+        // logger.error(messageSource.getMessage(ERROR_MESSAGE_IS_MAXLENGTH_60, null,
+        // Locale.ENGLISH));
+        // throw new BadRequestException(new
+        // ExceptionResponse(ERROR_CODE_FIRST_NAME_MAXLENGTH,
+        // messageSource.getMessage(ERROR_MESSAGE_IS_MAXLENGTH_60, null,
+        // Locale.ENGLISH)));
+        // }
+        else if (updateRequest.getLastName().isEmpty()) {
+            logger.error(messageSource.getMessage(ERROR_MESSAGE_IS_REQUIRED, null, Locale.ENGLISH));
+            throw new BadRequestException(new ExceptionResponse(ERROR_CODE_LAST_NAME_REQUIRED,
+                    messageSource.getMessage(ERROR_MESSAGE_IS_REQUIRED, null, Locale.ENGLISH)));
+        } else if (updateRequest.getIdCardNo().isEmpty()) {
+            logger.error(messageSource.getMessage(ERROR_MESSAGE_IS_REQUIRED, null, Locale.ENGLISH));
+            throw new BadRequestException(new ExceptionResponse(ERROR_CODE_ID_CARD_NO,
+                    messageSource.getMessage(ERROR_MESSAGE_IS_REQUIRED, null, Locale.ENGLISH)));
+        }
+        this.customerRepository.requestUpdateProfile(updateRequest, updateRequest.getCustomerId());
         return new MessageResponse(messageSource.getMessage(SUCCESS_MESSAGE_UPDATE, null, Locale.ENGLISH));
     }
 }

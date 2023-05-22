@@ -37,10 +37,17 @@ public class BaseException extends RuntimeException {
         this.errors = exceptionResponse;
     }
 
-    @ExceptionHandler(value = { BaseException.class })
+    @ExceptionHandler(value = { BadRequestException.class })
+    public ResponseEntity<?> handleException(BadRequestException ex) {
+        logger.error("Exception: ", ex.getMessage());
+        return new ResponseEntity<>(new ExceptionResponse(ex.getErrors().getCode(), ex.getErrors().getMessage()),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = { IdNotFoundException.class })
     public ResponseEntity<?> handleException(BaseException ex) {
         logger.error("Exception: ", ex.getMessage());
         return new ResponseEntity<>(new ExceptionResponse(ex.getErrors().getCode(), ex.getErrors().getMessage()),
-                HttpStatus.INTERNAL_SERVER_ERROR);
+                HttpStatus.NOT_FOUND);
     }
 }

@@ -143,7 +143,7 @@
         JOIN WARD
             ON ADDRESS.ward_id = WARD.ward_id
     SET
-        CUSTOMER.customer_id = #{updateRequest.customerId}
+        CUSTOMER.customer_id = #{updateRequest.customerId},
         CUSTOMER.first_name = #{updateRequest.firstName},
         CUSTOMER.last_name = #{updateRequest.lastName},
         CUSTOMER.id_card_no = #{updateRequest.idCardNo},
@@ -158,7 +158,7 @@
         CUSTOMER.married = #{updateRequest.married},
         CUSTOMER.passport_no = #{updateRequest.passportNo}
     WHERE    
-        CUSTOMER.customer_id = #{customerId}    
+        CUSTOMER.customer_id = #{updateRequest.customerId}    
     </update>
 
     <update id = "batchUpdateCustomerStatus" parameterType = "com.api.customer.entities.CustomerEntity">

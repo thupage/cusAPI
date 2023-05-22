@@ -64,7 +64,7 @@ public class CustomerRepository {
      * @param customerId ID of the customer to check.
      * @return true if customer exists, false if not.
      */
-    public Boolean customerIdExist(int customerId) {
+    public Boolean isNotFound(int customerId) {
         return customerMapper.getDetailOfCustomer(customerId) != null;
     }
 
@@ -74,7 +74,7 @@ public class CustomerRepository {
      * @param status Status of the customer to check.
      * @return true if status valid, false if invalid.
      */
-    public Boolean isValidStatus(String status) {
+    public Boolean isBadRequest(String status) {
         return newStatus.contains(status);
     }
 
@@ -88,7 +88,7 @@ public class CustomerRepository {
         customerMapper.batchUpdateCustomerStatus(customerId, status);
     }
 
-    public void requestUpdateProfile(UpdateRequest updateRequest){
-        customerMapper.updateProfile(updateRequest);
+    public int requestUpdateProfile(UpdateRequest updateRequest, int customerId) {
+        return customerMapper.updateProfile(updateRequest, customerId);
     }
 }

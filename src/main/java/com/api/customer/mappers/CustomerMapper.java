@@ -50,5 +50,5 @@ public interface CustomerMapper {
      */
     public void batchUpdateCustomerStatus(@Param("customerId") int customerId, @Param("status") String status);
 
-    public void updateProfile(UpdateRequest updateRequest);
+    public int updateProfile(UpdateRequest updateRequest, int customerId);
 }
