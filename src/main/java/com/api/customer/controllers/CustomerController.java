@@ -3,9 +3,11 @@ package com.api.customer.controllers;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -25,6 +27,7 @@ import com.api.customer.entities.CustomerEntity;
 import com.api.customer.exceptions.ErrorResponse;
 import com.api.customer.model.request.SearchRequest;
 import com.api.customer.model.request.UpdateRequest;
+import com.api.customer.model.response.MessageResponse;
 import com.api.customer.model.response.SearchResponse;
 import com.api.customer.services.CustomerService;
 
@@ -42,6 +45,9 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private MessageSource messageSource;
 
     /**
      * Get a list of customers base on the search query.
@@ -73,28 +79,30 @@ public class CustomerController {
      * @return ResponseEntity contains the response body.
      */
     @PatchMapping(value = "/customer/{customerId}/{status}")
-    public ResponseEntity<?> updateCustomerStatus(@Valid @PathVariable int customerId,
+    public ResponseEntity<MessageResponse> updateCustomerStatus(@Valid @PathVariable int customerId,
             @Valid @PathVariable String status) {
         return ResponseEntity.ok(customerService.updateCustomersStatus(customerId, status));
     }
 
     @PostMapping(value = "/customer/temporary")
-    public ResponseEntity<?> updateProfile(@Valid @RequestBody UpdateRequest updateRequest) {
+    public ResponseEntity<MessageResponse> updateProfile(@Valid @RequestBody UpdateRequest updateRequest) {
         return ResponseEntity.ok(customerService.updateRequestProfile(updateRequest));
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, List<ErrorResponse>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        List<ErrorResponse> errors = new ArrayList<ErrorResponse>();
-        Map<String, List<ErrorResponse>> errorResponse = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            ErrorResponse errorObj = new ErrorResponse(fieldName, errorMessage);
-            errors.add(errorObj);
-        });
-        errorResponse.put("errors", errors);
-        return errorResponse;
-    }
+    // @ResponseStatus(HttpStatus.BAD_REQUEST)
+    // @ExceptionHandler(MethodArgumentNotValidException.class)
+    // public Map<String, List<ErrorResponse>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    //     List<ErrorResponse> errors = new ArrayList<ErrorResponse>();
+    //     Map<String, List<ErrorResponse>> errorResponse = new HashMap<>();
+    //     ex.getBindingResult().getAllErrors().forEach((error) -> {
+    //         String errorCode = ((FieldError) error).getField();
+    //         // String codeField = error.getCode();
+    //         String errorMessage =  messageSource.getMessage(error.getDefaultMessage(), null, Locale.ENGLISH);
+    //         ErrorResponse errorObj = new ErrorResponse(errorCode, errorMessage);
+    //         errors.add(errorObj);
+    //     });
+    //     errorResponse.put("errors", errors);
+    //     return errorResponse;
+    // }
+    
 }
