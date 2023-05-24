@@ -1,5 +1,8 @@
 package com.api.customer.model.request;
 
+import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_REQUIRED;
+
+import java.io.Serializable;
 import java.util.Date;
 
 import org.hibernate.validator.constraints.Length;
@@ -16,18 +19,19 @@ import lombok.Data;
  * @author thutrang
  */
 @Data
-public class UpdateRequest {
+public class UpdateRequest implements Serializable {
+
     private int customerId;
 
-    // @NotEmpty
+    @NotEmpty(message = ERROR_MESSAGE_IS_REQUIRED)
     @Length(max = 60)
     private String firstName;
 
-    // @NotEmpty
+    @NotEmpty()
     @Length(max = 60)
     private String lastName;
 
-    // @NotEmpty
+    @NotEmpty
     @Length(max = 24)
     private String idCardNo;
 

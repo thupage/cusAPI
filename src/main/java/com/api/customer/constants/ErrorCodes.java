@@ -33,10 +33,10 @@ public class ErrorCodes {
     public static final String ERROR_CODE_GENDER_INVALID = "gender_invalid";
     // Error code: phone_required
     public static final String ERROR_CODE_PHONE_REQUIRED = "phone_required";
-    // Error code: 
-    public static final String ERROR_CODE_PHONE_INVALID = "phone_invalid";
     // Error code: phone_invalid
-    public static final String ERROR_CODE_EMAIL_REQUIRED = "email_invalid";
+    public static final String ERROR_CODE_PHONE_INVALID = "phone_invalid";
+    // Error code: email_required
+    public static final String ERROR_CODE_EMAIL_REQUIRED = "email_required";
     // Error code: email_invalid
     public static final String ERROR_CODE_EMAIL_INVALID = "email_invalid";
     // Error code: street_required
