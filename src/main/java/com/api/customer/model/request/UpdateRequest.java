@@ -1,22 +1,42 @@
 package com.api.customer.model.request;
 
 import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_REQUIRED;
-import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_MAXLENGTH_60;
-import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_MAXLENGTH_24;
-import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_DOB_INVALID;
+import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_MAXLENGTH;
 import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_GENDER_INVALID;
-import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_PHONE_INVALID;
-import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_EMAIL_INVALID;
+import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_INVALID_FORMAT;
 import static com.api.customer.constants.ErrorCodes.ERROR_CODE_PHONE_INVALID;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_FIRST_NAME_REQUIRED;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_FIRST_NAME_MAXLENGTH;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_LAST_NAME_REQUIRED;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_LAST_NAME_MAXLENGTH;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_ID_CARD_NO_REQUIRED;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_ID_CARD_NO_MAXLENGTH;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_DOB_REQUIRED;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_DOB_INVALID;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_GENDER_REQUIRED;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_GENDER_INVALID;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_PHONE_REQUIRED;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_PHONE_INVALID;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_EMAIL_REQUIRED;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_EMAIL_INVALID;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_STREET_REQUIRED;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_STREET_MAXLENGTH;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_WARD_REQUIRED;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_NATIONALITY_REQUIRED;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_OCCUPATION_REQUIRED;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_PASSPORT_NO_REQUIRED;
+import static com.api.customer.constants.ErrorCodes.ERROR_CODE_PASSPORT_NO_MAXLENGTH;
+
 import java.util.Date;
 
-import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import com.api.customer.annotation.DateConstraint;
+import com.api.customer.annotation.EmailConstraint;
+import com.api.customer.annotation.LengthConstraint;
+import com.api.customer.annotation.NotEmptyConstraint;
+import com.api.customer.annotation.PhoneConstraint;
+
 import lombok.Data;
 
 /**
@@ -29,49 +49,53 @@ public class UpdateRequest {
 
     private int customerId;
 
-    @NotEmpty(message = ERROR_MESSAGE_IS_REQUIRED)
-    @Length(max = 60, message = ERROR_MESSAGE_IS_MAXLENGTH_60)
+    @NotEmptyConstraint(message = ERROR_MESSAGE_IS_REQUIRED, code = ERROR_CODE_FIRST_NAME_REQUIRED)
+    @LengthConstraint(max = 60, message = ERROR_MESSAGE_IS_MAXLENGTH, code = ERROR_CODE_FIRST_NAME_MAXLENGTH)
     private String firstName;
 
-    @NotEmpty(message = ERROR_MESSAGE_IS_REQUIRED)
-    @Length(max = 60, message = ERROR_MESSAGE_IS_MAXLENGTH_60)
+    @NotEmptyConstraint(message = ERROR_MESSAGE_IS_REQUIRED, code = ERROR_CODE_LAST_NAME_REQUIRED)
+    @LengthConstraint(max = 60, message = ERROR_MESSAGE_IS_MAXLENGTH, code = ERROR_CODE_LAST_NAME_MAXLENGTH)
     private String lastName;
 
-    @NotEmpty(message = ERROR_MESSAGE_IS_REQUIRED)
-    @Length(max = 24, message = ERROR_MESSAGE_IS_MAXLENGTH_24)
+    @NotEmptyConstraint(message = ERROR_MESSAGE_IS_REQUIRED, code = ERROR_CODE_ID_CARD_NO_REQUIRED)
+    @LengthConstraint(max = 24, message = ERROR_MESSAGE_IS_MAXLENGTH, code = ERROR_CODE_ID_CARD_NO_MAXLENGTH)
     private String idCardNo;
 
-    @NotNull(message = ERROR_MESSAGE_IS_REQUIRED)
+    // @NotEmptyConstraint(message = ERROR_MESSAGE_IS_REQUIRED, code =
+    // ERROR_CODE_DOB_REQUIRED)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    // @DateConstraint(pattern = "yyyy-MM-dd", message =
+    // ERROR_MESSAGE_IS_DOB_INVALID)
     private Date dob;
 
-    @NotEmpty(message = ERROR_MESSAGE_IS_REQUIRED)
-    @Pattern(regexp = "^(male|female|other)$", message = ERROR_MESSAGE_IS_GENDER_INVALID)
+    @NotEmptyConstraint(message = ERROR_MESSAGE_IS_REQUIRED, code = ERROR_CODE_GENDER_REQUIRED)
+    // @Pattern(regexp = "^(male|female|other)$", message =
+    // ERROR_MESSAGE_IS_GENDER_INVALID)
     private String gender;
 
-    @NotEmpty(message = ERROR_MESSAGE_IS_REQUIRED)
-    // @PhoneConstraint(message = ERROR_MESSAGE_IS_PHONE_INVALID, code = ERROR_CODE_PHONE_INVALID)
+    @NotEmptyConstraint(message = ERROR_MESSAGE_IS_REQUIRED, code = ERROR_CODE_PHONE_REQUIRED)
+    @PhoneConstraint(message = ERROR_MESSAGE_IS_INVALID_FORMAT, code = ERROR_CODE_PHONE_INVALID)
     private String phone;
 
-    @NotEmpty(message = ERROR_MESSAGE_IS_REQUIRED)
-    @Email(message = ERROR_MESSAGE_IS_EMAIL_INVALID)
+    @NotEmptyConstraint(message = ERROR_MESSAGE_IS_REQUIRED, code = ERROR_CODE_EMAIL_REQUIRED)
+    @EmailConstraint(message = ERROR_MESSAGE_IS_INVALID_FORMAT, code = ERROR_CODE_EMAIL_INVALID)
     private String email;
 
-    @NotEmpty(message = ERROR_MESSAGE_IS_REQUIRED)
-    @Length(max = 60, message = ERROR_MESSAGE_IS_MAXLENGTH_60)
+    @NotEmptyConstraint(message = ERROR_MESSAGE_IS_REQUIRED, code = ERROR_CODE_STREET_REQUIRED)
+    @LengthConstraint(max = 60, message = ERROR_MESSAGE_IS_MAXLENGTH, code = ERROR_CODE_STREET_MAXLENGTH)
     private String street;
 
-    @NotEmpty(message = ERROR_MESSAGE_IS_REQUIRED)
+    @NotEmptyConstraint(message = ERROR_MESSAGE_IS_REQUIRED, code = ERROR_CODE_NATIONALITY_REQUIRED)
     private String nationality;
 
-    @NotEmpty(message = ERROR_MESSAGE_IS_REQUIRED)
+    @NotEmptyConstraint(message = ERROR_MESSAGE_IS_REQUIRED, code = ERROR_CODE_OCCUPATION_REQUIRED)
     private String occupation;
 
-    @NotEmpty(message = ERROR_MESSAGE_IS_REQUIRED)
-    @Length(max = 24, message = ERROR_MESSAGE_IS_MAXLENGTH_24)
+    @NotEmptyConstraint(message = ERROR_MESSAGE_IS_REQUIRED, code = ERROR_CODE_PASSPORT_NO_REQUIRED)
+    @LengthConstraint(max = 24, message = ERROR_MESSAGE_IS_MAXLENGTH, code = ERROR_CODE_PASSPORT_NO_MAXLENGTH)
     private String passportNo;
 
-    @NotEmpty(message = ERROR_MESSAGE_IS_REQUIRED)
+    @NotEmptyConstraint(message = ERROR_MESSAGE_IS_REQUIRED, code = ERROR_CODE_WARD_REQUIRED)
     private String wardId;
     private String married;
 }

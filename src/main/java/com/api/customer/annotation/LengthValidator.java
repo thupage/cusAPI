@@ -12,26 +12,30 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class PhoneValidator implements ConstraintValidator<PhoneConstraint, String> {
+public class LengthValidator implements ConstraintValidator<LengthConstraint, String> {
 
     private String code;
     private String message;
+    private int min;
+    private int max;
 
     @Autowired
     private MessageSource messageSource;
 
     @Override
-    public void initialize(PhoneConstraint phoneConstraint) {
-        this.code = phoneConstraint.code();
-        this.message = phoneConstraint.message();
+    public void initialize(LengthConstraint lengthConstraint) {
+        this.code = lengthConstraint.code();
+        this.message = lengthConstraint.message();
+        this.min = lengthConstraint.min();
+        this.max = lengthConstraint.max();
     }
 
     @Override
-    public boolean isValid(String phone,
+    public boolean isValid(String value,
             ConstraintValidatorContext cxt) {
         ErrorResponse customError = new ErrorResponse();
         customError.setCode(code);
-        customError.setMessage(messageSource.getMessage(message, new Object[] { "Phone Number" }, Locale.ENGLISH));
+        customError.setMessage(messageSource.getMessage(message, new Object[] { max }, Locale.ENGLISH));
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonError;
         try {
@@ -41,7 +45,10 @@ public class PhoneValidator implements ConstraintValidator<PhoneConstraint, Stri
         }
         cxt.disableDefaultConstraintViolation();
         cxt.buildConstraintViolationWithTemplate(jsonError).addConstraintViolation();
-        return phone != null && phone.matches("\\d+")
-                && (phone.length() > 8) && (phone.length() < 12);
+        if (value == null) {
+            return true;
+        }
+        int length = value.length();
+        return length >= min && length <= max;
     }
 }

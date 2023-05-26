@@ -10,10 +10,10 @@ import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
 @Documented
-@Constraint(validatedBy = PhoneValidator.class)
+@Constraint(validatedBy = NotEmptyValidator.class)
 @Target({ ElementType.METHOD, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PhoneConstraint {
+public @interface NotEmptyConstraint {
 
     String message() default "";
 
@@ -22,4 +22,5 @@ public @interface PhoneConstraint {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
 }

@@ -20,13 +20,13 @@ public class ErrorCodes {
     // Error code: last_name_maxlength
     public static final String ERROR_CODE_LAST_NAME_MAXLENGTH = "last_name_maxlength";
     // Error code: id_card_no
-    public static final String ERROR_CODE_ID_CARD_NO = "id_card_no";
+    public static final String ERROR_CODE_ID_CARD_NO_REQUIRED = "id_card_no_required";
     // Error code: id_card_maxlength
-    public static final String ERROR_CODE_ID_CARD_MAXLENGTH = "id_card_maxlength";
+    public static final String ERROR_CODE_ID_CARD_NO_MAXLENGTH = "id_card_maxlength";
     // Error code: dob_required
     public static final String ERROR_CODE_DOB_REQUIRED = "dob_required";
     // Error code: dob_invalid
-    public static final String ERROR_CODE_INVALID = "dob_invalid";
+    public static final String ERROR_CODE_DOB_INVALID = "dob_invalid";
     // Error code: gender_required
     public static final String ERROR_CODE_GENDER_REQUIRED = "gender_required";
     // Error code: gender_invalid

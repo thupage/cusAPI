@@ -13,11 +13,11 @@ import jakarta.validation.Payload;
 @Constraint(validatedBy = DateValidator.class)
 public @interface DateConstraint {
 
-    String message() default "invalid date";
+    String message() default "";
 
-    Class<?>[] groups() default {};
+    Class<?>[] groups() default { };
 
-    Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default { };
 
-    boolean optional() default false;
+    String pattern() default "";
 }

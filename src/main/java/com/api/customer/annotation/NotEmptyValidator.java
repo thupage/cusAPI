@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class PhoneValidator implements ConstraintValidator<PhoneConstraint, String> {
+public class NotEmptyValidator implements ConstraintValidator<NotEmptyConstraint, String> {
 
     private String code;
     private String message;
@@ -21,17 +21,17 @@ public class PhoneValidator implements ConstraintValidator<PhoneConstraint, Stri
     private MessageSource messageSource;
 
     @Override
-    public void initialize(PhoneConstraint phoneConstraint) {
-        this.code = phoneConstraint.code();
-        this.message = phoneConstraint.message();
+    public void initialize(NotEmptyConstraint notEmptyConstraint) {
+        this.code = notEmptyConstraint.code();
+        this.message = notEmptyConstraint.message();
     }
 
     @Override
-    public boolean isValid(String phone,
+    public boolean isValid(String value,
             ConstraintValidatorContext cxt) {
         ErrorResponse customError = new ErrorResponse();
         customError.setCode(code);
-        customError.setMessage(messageSource.getMessage(message, new Object[] { "Phone Number" }, Locale.ENGLISH));
+        customError.setMessage(messageSource.getMessage(message, null, Locale.ENGLISH));
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonError;
         try {
@@ -41,7 +41,6 @@ public class PhoneValidator implements ConstraintValidator<PhoneConstraint, Stri
         }
         cxt.disableDefaultConstraintViolation();
         cxt.buildConstraintViolationWithTemplate(jsonError).addConstraintViolation();
-        return phone != null && phone.matches("\\d+")
-                && (phone.length() > 8) && (phone.length() < 12);
+        return !(value == null || value.isEmpty());
     }
 }

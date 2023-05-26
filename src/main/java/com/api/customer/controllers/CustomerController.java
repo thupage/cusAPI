@@ -1,30 +1,17 @@
 package com.api.customer.controllers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.customer.entities.CustomerEntity;
-import com.api.customer.exceptions.ErrorResponse;
 import com.api.customer.model.request.SearchRequest;
 import com.api.customer.model.request.UpdateRequest;
 import com.api.customer.model.response.MessageResponse;
@@ -45,9 +32,6 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
-
-    @Autowired
-    private MessageSource messageSource;
 
     /**
      * Get a list of customers base on the search query.
@@ -88,21 +72,4 @@ public class CustomerController {
     public ResponseEntity<MessageResponse> updateProfile(@Valid @RequestBody UpdateRequest updateRequest) {
         return ResponseEntity.ok(customerService.updateRequestProfile(updateRequest));
     }
-
-    // @ResponseStatus(HttpStatus.BAD_REQUEST)
-    // @ExceptionHandler(MethodArgumentNotValidException.class)
-    // public Map<String, List<ErrorResponse>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-    //     List<ErrorResponse> errors = new ArrayList<ErrorResponse>();
-    //     Map<String, List<ErrorResponse>> errorResponse = new HashMap<>();
-    //     ex.getBindingResult().getAllErrors().forEach((error) -> {
-    //         String errorCode = ((FieldError) error).getField();
-    //         // String codeField = error.getCode();
-    //         String errorMessage =  messageSource.getMessage(error.getDefaultMessage(), null, Locale.ENGLISH);
-    //         ErrorResponse errorObj = new ErrorResponse(errorCode, errorMessage);
-    //         errors.add(errorObj);
-    //     });
-    //     errorResponse.put("errors", errors);
-    //     return errorResponse;
-    // }
-    
 }
