@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BaseException extends RuntimeException {
 
-    private ExceptionResponse errors;
+    private ErrorResponse errors;
 
     private static Logger logger = LoggerFactory.getLogger(BaseException.class);
 
@@ -30,17 +30,24 @@ public class BaseException extends RuntimeException {
      * Constructs a new Exception with the specified exception response and status
      * code.
      * 
-     * @param exceptionResponse The exception response.
-     * @param statusCode        The HTTP status code.
+     * @param errorResponse The exception response.
+     * @param statusCode    The HTTP status code.
      */
-    public BaseException(ExceptionResponse exceptionResponse, HttpStatus statusCode) {
-        this.errors = exceptionResponse;
+    public BaseException(ErrorResponse errorResponse, HttpStatus statusCode) {
+        this.errors = errorResponse;
     }
 
-    @ExceptionHandler(value = { BaseException.class })
-    public ResponseEntity<?> handleException(BaseException ex) {
+    @ExceptionHandler(value = { BadRequestException.class })
+    public ResponseEntity<?> handleException(BadRequestException ex) {
         logger.error("Exception: ", ex.getMessage());
-        return new ResponseEntity<>(new ExceptionResponse(ex.getErrors().getCode(), ex.getErrors().getMessage()),
-                HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new ErrorResponse(ex.getErrors().getCode(), ex.getErrors().getMessage()),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = { IdNotFoundException.class })
+    public ResponseEntity<?> handleException(IdNotFoundException ex) {
+        logger.error("Exception: ", ex.getMessage());
+        return new ResponseEntity<>(new ErrorResponse(ex.getErrors().getCode(), ex.getErrors().getMessage()),
+                HttpStatus.NOT_FOUND);
     }
 }

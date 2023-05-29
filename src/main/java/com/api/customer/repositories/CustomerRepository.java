@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.api.customer.entities.CustomerEntity;
 import com.api.customer.mappers.CustomerMapper;
 import com.api.customer.model.request.SearchRequest;
+import com.api.customer.model.request.UpdateRequest;
 import com.api.customer.model.response.CustomerResponse;
 
 /**
@@ -63,7 +64,7 @@ public class CustomerRepository {
      * @param customerId ID of the customer to check.
      * @return true if customer exists, false if not.
      */
-    public Boolean customerIdExist(int customerId) {
+    public Boolean isNotFound(int customerId) {
         return customerMapper.getDetailOfCustomer(customerId) != null;
     }
 
@@ -73,7 +74,7 @@ public class CustomerRepository {
      * @param status Status of the customer to check.
      * @return true if status valid, false if invalid.
      */
-    public Boolean isValidStatus(String status) {
+    public Boolean isBadRequest(String status) {
         return newStatus.contains(status);
     }
 
@@ -85,5 +86,17 @@ public class CustomerRepository {
      */
     public void batchUpdateCustomerStatus(int customerId, String status) {
         customerMapper.batchUpdateCustomerStatus(customerId, status);
+    }
+
+    /**
+     * Update client's temporary profile information.
+     * 
+     * @param updateRequest The UpdateRequest object contains the profile update
+     *                      information.
+     * @param customerId    ID of the customer to update profile.
+     * @return Update profile success.
+     */
+    public int requestUpdateProfile(UpdateRequest updateRequest, int customerId) {
+        return customerMapper.updateProfile(updateRequest, customerId);
     }
 }

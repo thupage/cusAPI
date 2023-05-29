@@ -8,5 +8,5 @@ package com.api.customer.constants;
 public class SuccessMessage {
 
     // Success message from resources: updateSuccess
-    public static final String SUCCESS_MESSAGE_UPDATE = "updateSuccess";
+    public static final String SUCCESS_MESSAGE_UPDATE = "isUpdateSuccess";
 }

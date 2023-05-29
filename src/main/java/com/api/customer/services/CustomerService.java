@@ -3,8 +3,8 @@ package com.api.customer.services;
 import java.util.List;
 import java.util.Locale;
 
-import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND;
-import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_STATUS_IS_INVALID;
+import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_NOT_FOUND;
+import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_STATUS_INVALID;
 import static com.api.customer.constants.SuccessMessage.SUCCESS_MESSAGE_UPDATE;
 import static com.api.customer.constants.ErrorCodes.ERROR_CODE_CUSTOMER_ID_NOT_FOUND;
 import static com.api.customer.constants.ErrorCodes.ERROR_CODE_STATUS_INVALID;
@@ -14,11 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
 import com.api.customer.entities.CustomerEntity;
 import com.api.customer.exceptions.BadRequestException;
-import com.api.customer.exceptions.ExceptionResponse;
+import com.api.customer.exceptions.ErrorResponse;
 import com.api.customer.exceptions.IdNotFoundException;
 import com.api.customer.model.request.SearchRequest;
+import com.api.customer.model.request.UpdateRequest;
 import com.api.customer.model.response.CustomerResponse;
 import com.api.customer.model.response.MessageResponse;
 import com.api.customer.model.response.SearchResponse;
@@ -64,10 +66,10 @@ public class CustomerService {
      * @throws IdNotFoundException If the client ID does not exist.
      */
     public CustomerEntity getCustomerDetailById(int customerId) {
-        if (!customerRepository.customerIdExist(customerId)) {
-            logger.error(messageSource.getMessage(ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND, null, Locale.ENGLISH));
-            throw new IdNotFoundException(new ExceptionResponse(ERROR_CODE_CUSTOMER_ID_NOT_FOUND,
-                    messageSource.getMessage(ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND, null, Locale.ENGLISH)));
+        if (!customerRepository.isNotFound(customerId)) {
+            logger.error(messageSource.getMessage(ERROR_MESSAGE_IS_NOT_FOUND, null, Locale.ENGLISH));
+            throw new IdNotFoundException(new ErrorResponse(ERROR_CODE_CUSTOMER_ID_NOT_FOUND,
+                    messageSource.getMessage(ERROR_MESSAGE_IS_NOT_FOUND, null, Locale.ENGLISH)));
         }
         CustomerEntity customerEntity = this.customerRepository.getDetailOfCustomerById(customerId);
         return customerEntity;
@@ -83,17 +85,35 @@ public class CustomerService {
      * @throws BadRequestException If customer's status invalid.
      */
     public MessageResponse updateCustomersStatus(int customerId, String status) {
-        if (!customerRepository.customerIdExist(customerId)) {
-            logger.error(messageSource.getMessage(ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND, null, Locale.ENGLISH));
-            throw new IdNotFoundException(new ExceptionResponse(ERROR_CODE_CUSTOMER_ID_NOT_FOUND,
-                    messageSource.getMessage(ERROR_MESSAGE_CUSTOMER_ID_NOT_FOUND, null, Locale.ENGLISH)));
+        if (!customerRepository.isNotFound(customerId)) {
+            logger.error(messageSource.getMessage(ERROR_MESSAGE_IS_NOT_FOUND, null, Locale.ENGLISH));
+            throw new IdNotFoundException(new ErrorResponse(ERROR_CODE_CUSTOMER_ID_NOT_FOUND,
+                    messageSource.getMessage(ERROR_MESSAGE_IS_NOT_FOUND, null, Locale.ENGLISH)));
         }
-        if (!customerRepository.isValidStatus(status)) {
-            logger.error(messageSource.getMessage(ERROR_MESSAGE_STATUS_IS_INVALID, null, Locale.ENGLISH));
-            throw new BadRequestException(new ExceptionResponse(ERROR_CODE_STATUS_INVALID,
-                    messageSource.getMessage(ERROR_MESSAGE_STATUS_IS_INVALID, null, Locale.ENGLISH)));
+        if (!customerRepository.isBadRequest(status)) {
+            logger.error(messageSource.getMessage(ERROR_MESSAGE_IS_STATUS_INVALID, null, Locale.ENGLISH));
+            throw new BadRequestException(new ErrorResponse(ERROR_CODE_STATUS_INVALID,
+                    messageSource.getMessage(ERROR_MESSAGE_IS_STATUS_INVALID, null, Locale.ENGLISH)));
         }
         customerRepository.batchUpdateCustomerStatus(customerId, status);
+        return new MessageResponse(messageSource.getMessage(SUCCESS_MESSAGE_UPDATE, null, Locale.ENGLISH));
+    }
+
+    /**
+     * Update client's temporary profile information.
+     * 
+     * @param updateRequest The UpdateRequest object contains the profile update
+     *                      information.
+     * @return The success message.
+     * @throws IdNotFoundException If the client ID does not exist.
+     */
+    public MessageResponse updateRequestProfile(UpdateRequest updateRequest) {
+        if (!customerRepository.isNotFound(updateRequest.getCustomerId())) {
+            logger.error(messageSource.getMessage(ERROR_MESSAGE_IS_NOT_FOUND, null, Locale.ENGLISH));
+            throw new IdNotFoundException(new ErrorResponse(ERROR_CODE_CUSTOMER_ID_NOT_FOUND,
+                    messageSource.getMessage(ERROR_MESSAGE_IS_NOT_FOUND, null, Locale.ENGLISH)));
+        }
+        this.customerRepository.requestUpdateProfile(updateRequest, updateRequest.getCustomerId());
         return new MessageResponse(messageSource.getMessage(SUCCESS_MESSAGE_UPDATE, null, Locale.ENGLISH));
     }
 }

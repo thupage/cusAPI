@@ -11,7 +11,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
 public class BadRequestException extends BaseException {
 
-    public BadRequestException(ExceptionResponse exceptionResponse) {
-        super(exceptionResponse, HttpStatus.BAD_REQUEST);
+    /**
+     * Exception to represent BadRequest error.
+     * 
+     * @param errorResponse The ErrorResponse contains information about the BadRequest error.
+     */
+    public BadRequestException(ErrorResponse errorResponse) {
+        super(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }

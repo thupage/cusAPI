@@ -1,7 +1,5 @@
 package com.api.customer.entities;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +17,8 @@ public class CustomerEntity {
     private String firstName;
     private String lastName;
     private String idCardNo;
-    private Date dob;
+    private String dob;
+    private String gender;
     private String phone;
     private String email;
     private String userName;

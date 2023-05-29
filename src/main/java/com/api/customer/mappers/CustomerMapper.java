@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.api.customer.entities.CustomerEntity;
 import com.api.customer.model.request.SearchRequest;
+import com.api.customer.model.request.UpdateRequest;
 import com.api.customer.model.response.CustomerResponse;
 
 /**
@@ -42,11 +43,20 @@ public interface CustomerMapper {
     public CustomerEntity getDetailOfCustomer(@Param("customerId") int customerId);
 
     /**
-     * Update client status
+     * Update client status.
      * 
      * @param customerId ID of the customer to update batch.
      * @param status     New customer's status.
      */
     public void batchUpdateCustomerStatus(@Param("customerId") int customerId, @Param("status") String status);
 
+    /**
+     * Update client's temporary profile information.
+     * 
+     * @param updateRequest The UpdateRequest object contains the profile update
+     *                      information.
+     * @param customerId    ID of the customer to update profile.
+     * @return Update profile success.
+     */
+    public int updateProfile(UpdateRequest updateRequest, int customerId);
 }
