@@ -68,6 +68,13 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.updateCustomersStatus(customerId, status));
     }
 
+    /**
+     * Update client's temporary profile information.
+     * 
+     * @param updateRequest The UpdateRequest object contains the profile update
+     *                      information.
+     * @return The success message.
+     */
     @PostMapping(value = "/customer/temporary")
     public ResponseEntity<MessageResponse> updateProfile(@Valid @RequestBody UpdateRequest updateRequest) {
         return ResponseEntity.ok(customerService.updateRequestProfile(updateRequest));

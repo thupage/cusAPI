@@ -1,10 +1,12 @@
-package com.api.customer.annotation;
+package com.api.customer.validators;
 
 import java.util.Locale;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
+import com.api.customer.annotations.PatternConstraint;
 import com.api.customer.exceptions.ErrorResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,26 +14,35 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class PhoneValidator implements ConstraintValidator<PhoneConstraint, String> {
+/**
+ * Pattern Validator.
+ * 
+ * @author thutrang
+ */
+public class PatternValidator implements ConstraintValidator<PatternConstraint, String> {
 
     private String code;
     private String message;
+    private String field;
+    private String regexp;
 
     @Autowired
     private MessageSource messageSource;
 
     @Override
-    public void initialize(PhoneConstraint phoneConstraint) {
-        this.code = phoneConstraint.code();
-        this.message = phoneConstraint.message();
+    public void initialize(PatternConstraint patternConstraint) {
+        this.code = patternConstraint.code();
+        this.message = patternConstraint.message();
+        this.field = patternConstraint.field();
+        this.regexp = patternConstraint.regexp();
     }
 
     @Override
-    public boolean isValid(String phone,
+    public boolean isValid(String value,
             ConstraintValidatorContext cxt) {
         ErrorResponse customError = new ErrorResponse();
         customError.setCode(code);
-        customError.setMessage(messageSource.getMessage(message, new Object[] { "Phone Number" }, Locale.ENGLISH));
+        customError.setMessage(messageSource.getMessage(message, new Object[] { field }, Locale.ENGLISH));
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonError;
         try {
@@ -41,7 +52,7 @@ public class PhoneValidator implements ConstraintValidator<PhoneConstraint, Stri
         }
         cxt.disableDefaultConstraintViolation();
         cxt.buildConstraintViolationWithTemplate(jsonError).addConstraintViolation();
-        return phone != null && phone.matches("\\d+")
-                && (phone.length() > 8) && (phone.length() < 12);
+        Pattern pattern = Pattern.compile(regexp);
+        return pattern.matcher(value).matches();
     }
 }

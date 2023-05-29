@@ -1,7 +1,5 @@
 package com.api.customer.model.response;
 
-import java.sql.Date;
-
 import com.api.customer.entities.AddressEntity;
 import com.api.customer.entities.AgencyEntity;
 import com.api.customer.entities.NationalityEntity;
@@ -24,7 +22,7 @@ public class CustomerResponse {
     private String firstName;
     private String lastName;
     private String idCardNo;
-    private Date dob;
+    private String dob;
     private String gender;
     private String phone;
     private String email;

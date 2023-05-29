@@ -15,6 +15,11 @@ import com.api.customer.exceptions.ErrorResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Application ExceptionHandler.
+ * 
+ * @author thutrang
+ */
 @RestControllerAdvice
 public class ApplicationExceptionHandler {
 

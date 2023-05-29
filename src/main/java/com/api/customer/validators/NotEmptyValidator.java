@@ -1,10 +1,11 @@
-package com.api.customer.annotation;
+package com.api.customer.validators;
 
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
+import com.api.customer.annotations.NotEmptyConstraint;
 import com.api.customer.exceptions.ErrorResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,6 +13,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+/**
+ * NotEmpty Validator.
+ * 
+ * @author thutrang
+ */
 public class NotEmptyValidator implements ConstraintValidator<NotEmptyConstraint, String> {
 
     private String code;

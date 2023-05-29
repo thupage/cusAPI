@@ -88,6 +88,14 @@ public class CustomerRepository {
         customerMapper.batchUpdateCustomerStatus(customerId, status);
     }
 
+    /**
+     * Update client's temporary profile information.
+     * 
+     * @param updateRequest The UpdateRequest object contains the profile update
+     *                      information.
+     * @param customerId    ID of the customer to update profile.
+     * @return Update profile success.
+     */
     public int requestUpdateProfile(UpdateRequest updateRequest, int customerId) {
         return customerMapper.updateProfile(updateRequest, customerId);
     }

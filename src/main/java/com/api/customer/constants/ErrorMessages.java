@@ -16,7 +16,7 @@ public class ErrorMessages {
     // Error message from resources: isMaxlength60
     public static final String ERROR_MESSAGE_IS_MAXLENGTH = "isMaxlength";
     // Error message from resources: isGenderInvalid
-    public static final String ERROR_MESSAGE_IS_GENDER_INVALID = "isGenderInvalid";
+    public static final String ERROR_MESSAGE_IS_INVALID = "isInvalid";
     // Error message from resources: isInvalidFormat
     public static final String ERROR_MESSAGE_IS_INVALID_FORMAT = "isInvalidFormat";
 }

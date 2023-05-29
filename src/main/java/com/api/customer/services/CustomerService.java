@@ -99,6 +99,14 @@ public class CustomerService {
         return new MessageResponse(messageSource.getMessage(SUCCESS_MESSAGE_UPDATE, null, Locale.ENGLISH));
     }
 
+    /**
+     * Update client's temporary profile information.
+     * 
+     * @param updateRequest The UpdateRequest object contains the profile update
+     *                      information.
+     * @return The success message.
+     * @throws IdNotFoundException If the client ID does not exist.
+     */
     public MessageResponse updateRequestProfile(UpdateRequest updateRequest) {
         if (!customerRepository.isNotFound(updateRequest.getCustomerId())) {
             logger.error(messageSource.getMessage(ERROR_MESSAGE_IS_NOT_FOUND, null, Locale.ENGLISH));
