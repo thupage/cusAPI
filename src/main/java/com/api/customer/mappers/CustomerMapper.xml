@@ -169,6 +169,12 @@
         customer_id = #{customerId}    
     </update>
 
+    <delete id = "deleteCustomer" parameterType = "com.api.customer.entities.CustomerEntity">
+    DELETE FROM CUSTOMER
+    WHERE
+        customer_id = #{customerId}    
+    </delete>
+
     <resultMap id="searchCount" type="int">
         <id property = "itemCount" column = "count(*)"/>
     </resultMap>
