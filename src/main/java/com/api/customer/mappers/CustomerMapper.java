@@ -59,4 +59,12 @@ public interface CustomerMapper {
      * @return Update profile success.
      */
     public int updateProfile(UpdateRequest updateRequest, int customerId);
+
+    /**
+     * Delete a customer based on customer ID.
+     * 
+     * @param customerId ID of the customer to delete.
+     * @return Delete success.
+     */
+    public int deleteCustomer(@Param("customerId") int customerId);
 }

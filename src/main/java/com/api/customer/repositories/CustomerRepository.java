@@ -99,4 +99,14 @@ public class CustomerRepository {
     public int requestUpdateProfile(UpdateRequest updateRequest, int customerId) {
         return customerMapper.updateProfile(updateRequest, customerId);
     }
+
+    /**
+     * Delete a customer based on customer ID.
+     * 
+     * @param customerId ID of the customer to delete.
+     * @return Delete success.
+     */
+    public int deleteCustomer(int customerId) {
+        return customerMapper.deleteCustomer(customerId);
+    }
 }

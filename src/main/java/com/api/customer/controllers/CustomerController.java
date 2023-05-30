@@ -3,6 +3,7 @@ package com.api.customer.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -78,5 +79,16 @@ public class CustomerController {
     @PostMapping(value = "/customer/temporary")
     public ResponseEntity<MessageResponse> updateProfile(@Valid @RequestBody UpdateRequest updateRequest) {
         return ResponseEntity.ok(customerService.updateRequestProfile(updateRequest));
+    }
+
+    /**
+     * Delete a customer based on customer ID.
+     * 
+     * @param customerId ID of the customer to delete.
+     * @return Delete success.
+     */
+    @DeleteMapping(value = "/customer/delete/{customerId}")
+    public ResponseEntity<MessageResponse> deleteCustomer(@Valid @PathVariable int customerId) {
+        return ResponseEntity.ok(customerService.deleteCustomer(customerId));
     }
 }

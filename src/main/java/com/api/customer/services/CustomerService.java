@@ -5,7 +5,7 @@ import java.util.Locale;
 
 import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_NOT_FOUND;
 import static com.api.customer.constants.ErrorMessages.ERROR_MESSAGE_IS_STATUS_INVALID;
-import static com.api.customer.constants.SuccessMessage.SUCCESS_MESSAGE_UPDATE;
+import static com.api.customer.constants.SuccessMessage.SUCCESS_MESSAGE;
 import static com.api.customer.constants.ErrorCodes.ERROR_CODE_CUSTOMER_ID_NOT_FOUND;
 import static com.api.customer.constants.ErrorCodes.ERROR_CODE_STATUS_INVALID;
 import org.slf4j.Logger;
@@ -96,7 +96,7 @@ public class CustomerService {
                     messageSource.getMessage(ERROR_MESSAGE_IS_STATUS_INVALID, null, Locale.ENGLISH)));
         }
         customerRepository.batchUpdateCustomerStatus(customerId, status);
-        return new MessageResponse(messageSource.getMessage(SUCCESS_MESSAGE_UPDATE, null, Locale.ENGLISH));
+        return new MessageResponse(messageSource.getMessage(SUCCESS_MESSAGE, null, Locale.ENGLISH));
     }
 
     /**
@@ -114,6 +114,24 @@ public class CustomerService {
                     messageSource.getMessage(ERROR_MESSAGE_IS_NOT_FOUND, null, Locale.ENGLISH)));
         }
         this.customerRepository.requestUpdateProfile(updateRequest, updateRequest.getCustomerId());
-        return new MessageResponse(messageSource.getMessage(SUCCESS_MESSAGE_UPDATE, null, Locale.ENGLISH));
+        return new MessageResponse(
+                messageSource.getMessage(SUCCESS_MESSAGE, new Object[] { "Update" }, Locale.ENGLISH));
+    }
+
+    /**
+     * Delete a customer based on customer ID.
+     * 
+     * @param customerId ID of the customer to delete.
+     * @return Delete success.
+     */
+    public MessageResponse deleteCustomer(int customerId) {
+        if (!customerRepository.isNotFound(customerId)) {
+            logger.error(messageSource.getMessage(ERROR_MESSAGE_IS_NOT_FOUND, null, Locale.ENGLISH));
+            throw new IdNotFoundException(new ErrorResponse(ERROR_CODE_CUSTOMER_ID_NOT_FOUND,
+                    messageSource.getMessage(ERROR_MESSAGE_IS_NOT_FOUND, null, Locale.ENGLISH)));
+        }
+        this.customerRepository.deleteCustomer(customerId);
+        return new MessageResponse(
+                messageSource.getMessage(SUCCESS_MESSAGE, new Object[] { "Delete" }, Locale.ENGLISH));
     }
 }
