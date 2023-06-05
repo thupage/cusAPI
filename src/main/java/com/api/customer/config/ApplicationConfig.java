@@ -23,7 +23,7 @@ public class ApplicationConfig {
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasenames("classpath:/messages/messages");
+        messageSource.setBasenames("classpath:/messages/messages","classpath:/application");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
     }

@@ -2,7 +2,10 @@ package com.api.customer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
+
+import com.api.customer.config.AppProperties;
 
 /**
  * Customer Application.
@@ -14,6 +17,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @ComponentScan("com.api.customer.*")
+@EnableConfigurationProperties(AppProperties.class)
 public class CustomerApplication {
 
     public static void main(String[] args) {

@@ -2,11 +2,13 @@ package com.api.customer.repositories;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.api.customer.entities.CustomerEntity;
+import com.api.customer.entities.UserEntity;
 import com.api.customer.mappers.CustomerMapper;
 import com.api.customer.model.request.SearchRequest;
 import com.api.customer.model.request.UpdateRequest;
@@ -108,5 +110,9 @@ public class CustomerRepository {
      */
     public int deleteCustomer(int customerId) {
         return customerMapper.deleteCustomer(customerId);
+    }
+
+    Optional<UserEntity> findByEmail(String email){
+        return customerMapper.findByEmail(email);
     }
 }
