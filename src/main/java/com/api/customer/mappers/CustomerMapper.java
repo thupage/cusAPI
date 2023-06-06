@@ -1,13 +1,11 @@
 package com.api.customer.mappers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.api.customer.entities.CustomerEntity;
-import com.api.customer.entities.UserEntity;
 import com.api.customer.model.request.SearchRequest;
 import com.api.customer.model.request.UpdateRequest;
 import com.api.customer.model.response.CustomerResponse;
@@ -70,7 +68,4 @@ public interface CustomerMapper {
      */
     public int deleteCustomer(@Param("customerId") int customerId);
 
-    Optional<UserEntity> findByEmail(String email);
-
-    Boolean existByEmail(String email);
 }

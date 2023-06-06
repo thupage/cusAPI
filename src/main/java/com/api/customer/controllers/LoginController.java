@@ -1,5 +1,7 @@
 package com.api.customer.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
@@ -8,11 +10,21 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.api.customer.model.request.LoginRequest;
+import com.api.customer.services.LoginUserService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/management")
 public class LoginController {
+
+    @Autowired
+    private LoginUserService loginUserService;
 
     @GetMapping(value = "/login")
     public String gettoken(Model model, @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient auth2AuthorizedClient,
@@ -25,5 +37,10 @@ public class LoginController {
         String token = accessToken.getTokenValue();
         model.addAttribute("token", token);
         return "index";
+    }
+
+    @PostMapping(value = "/user/login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
+        return ResponseEntity.ok(loginUserService.authenticateUser(loginRequest));
     }
 }
