@@ -10,4 +10,5 @@ public class UserEntity {
     private String imageUrl;
     private Boolean emailVerified = false;
     private String password;
+    private String role;
 }

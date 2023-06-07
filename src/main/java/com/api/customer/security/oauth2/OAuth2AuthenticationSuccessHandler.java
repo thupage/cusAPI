@@ -64,7 +64,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                     messageSource.getMessage("ERROR_MESSAGE_IS_STATUS_INVALID", null, null)));
         }
         String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
-        String token = tokenUtil.generateToken(authentication);
+        String token = tokenUtil.createToken(authentication);
         return UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("token", token)
                 .build().toUriString();

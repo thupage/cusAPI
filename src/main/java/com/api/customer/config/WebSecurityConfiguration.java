@@ -38,36 +38,53 @@ public class WebSecurityConfiguration {
     @Autowired
     private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
 
+    // @Bean
+    // SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    //     return http
+    //             .cors()
+    //             .and()
+    //             .sessionManagement()
+    //             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+    //             .and()
+    //             .csrf()
+    //             .disable()
+    //             .formLogin()
+    //             .disable()
+    //             .httpBasic()
+    //             .disable()
+    //             .exceptionHandling()
+    //             // .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+    //             .and()
+    //             .authorizeHttpRequests()
+    //             .requestMatchers("/auth/**").permitAll()
+    //             .anyRequest()
+    //             .authenticated()
+    //             .and()
+    //             .oauth2Login()
+    //             .authorizationEndpoint()
+    //             // .baseUri("/oauth2/authorize")
+    //             .authorizationRequestRepository(cookieAuthorizationRequestRepository())
+    //             .and().redirectionEndpoint().baseUri("/oauth2/callback/*")
+    //             .and().userInfoEndpoint().userService(customOAuth2UserService)
+    //             .and().successHandler(oAuth2AuthenticationSuccessHandler)
+    //             .failureHandler(oAuth2AuthenticationFailureHandler).and().build();
+    // }
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-                .cors()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .csrf()
-                .disable()
-                .formLogin()
-                .disable()
-                .httpBasic()
-                .disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/**", "/oauth2/**").permitAll()
+                .requestMatchers("/login/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .oauth2Login()
-                .authorizationEndpoint()
-                .baseUri("/oauth2/authorize")
-                .authorizationRequestRepository(cookieAuthorizationRequestRepository())
-                .and().redirectionEndpoint().baseUri("/oauth2/callback/*")
-                .and().userInfoEndpoint().userService(customOAuth2UserService)
-                .and().successHandler(oAuth2AuthenticationSuccessHandler)
-                .failureHandler(oAuth2AuthenticationFailureHandler).and().build();
+                .defaultSuccessUrl("/success")
+                .and()
+                .logout()
+                // .logoutSuccessUrl("/")
+                .and()
+                .build();
     }
 
     @Bean

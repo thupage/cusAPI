@@ -27,7 +27,7 @@ public class LoginUserService {
                         loginRequest.getEmail(),
                         loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = tokenUtil.generateToken(authentication);
+        String token = tokenUtil.createToken(authentication);
         return ResponseEntity.ok(new AuthResponse(token));
     }
 }
