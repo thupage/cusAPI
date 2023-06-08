@@ -3,26 +3,19 @@
 
 <mapper namespace="com.api.customer.mappers.UserMapper">
 
-    <select id="findByUsername" parameterType="com.api.customer.entities.UserEntity" resultMap="accountResult"> 
-    SELECT user_id, user_name, email, password, role
+    <select id="findByEmail" parameterType="com.api.customer.entities.UserEntity" resultMap="accountResult"> 
+    SELECT id, email, image_url, name, password
     FROM USER
     WHERE 
-        user_name = #{username} 
-    </select>
-
-    <select id="selectByUserName" parameterType="com.api.customer.entities.UserEntity" resultMap="accountResult">
-    SELECT user_id, user_name, email, password, role
-    FROM USER 
-    WHERE 
-        user_name = #{username}
+        email = #{email} 
     </select>
 
     <resultMap id="accountResult" type="com.api.customer.entities.UserEntity">
-        <result property="userId" column="user_id" />
-        <result property="userName" column="user_name" />
+        <result property="id" column="id" />
         <result property="email" column="email" />
+        <result property="imageUrl" column="image_url" />
+        <result property="name" column="name" />
         <result property="password" column="password" />
-        <result property="role" column="role" />
     </resultMap>
 
 </mapper>

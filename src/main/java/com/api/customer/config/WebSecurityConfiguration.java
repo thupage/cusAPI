@@ -7,89 +7,68 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
+import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
+import org.springframework.security.oauth2.client.web.HttpSessionOAuth2AuthorizationRequestRepository;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.api.customer.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
-import com.api.customer.security.oauth2.OAuth2AuthenticationFailureHandler;
-import com.api.customer.security.oauth2.OAuth2AuthenticationSuccessHandler;
-import com.api.customer.security.user.CustomOAuth2UserService;
-import com.api.customer.security.user.CustomUserDetailsService;
-import com.api.customer.security.user.RestAuthenticationEntryPoint;
+import com.api.customer.filters.AuthenticationFilter;
+import com.api.customer.oauth2.CustomAuthenticationSuccessHandler;
 
 @Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
 public class WebSecurityConfiguration {
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new CustomUserDetailsService();
-    }
+    @Autowired
+    private AuthenticationFilter authenticationFilter;
 
     @Autowired
-    private CustomOAuth2UserService customOAuth2UserService;
+    private UserDetailsService userDetailsService;
 
     @Autowired
-    private OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private OidcUserService oidcUserService;
 
     @Autowired
-    private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
-
-    // @Bean
-    // SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    //     return http
-    //             .cors()
-    //             .and()
-    //             .sessionManagement()
-    //             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-    //             .and()
-    //             .csrf()
-    //             .disable()
-    //             .formLogin()
-    //             .disable()
-    //             .httpBasic()
-    //             .disable()
-    //             .exceptionHandling()
-    //             // .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-    //             .and()
-    //             .authorizeHttpRequests()
-    //             .requestMatchers("/auth/**").permitAll()
-    //             .anyRequest()
-    //             .authenticated()
-    //             .and()
-    //             .oauth2Login()
-    //             .authorizationEndpoint()
-    //             // .baseUri("/oauth2/authorize")
-    //             .authorizationRequestRepository(cookieAuthorizationRequestRepository())
-    //             .and().redirectionEndpoint().baseUri("/oauth2/callback/*")
-    //             .and().userInfoEndpoint().userService(customOAuth2UserService)
-    //             .and().successHandler(oAuth2AuthenticationSuccessHandler)
-    //             .failureHandler(oAuth2AuthenticationFailureHandler).and().build();
-    // }
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/login/**").permitAll()
-                .anyRequest()
-                .authenticated()
+                .requestMatchers("/user").permitAll()
                 .and()
                 .oauth2Login()
-                .defaultSuccessUrl("/success")
-                .and()
-                .logout()
-                // .logoutSuccessUrl("/")
-                .and()
+                // .loginPage("/user/login")
+                .redirectionEndpoint()
+                .baseUri("/oauth2/callback/*")
+                // .and()
+                // .and()
+                // .authorizeHttpRequests()
+                // .requestMatchers("/user/**").authenticated()
+                .and().userInfoEndpoint().oidcUserService(oidcUserService)
+                .and().authorizationEndpoint().baseUri("/oauth2/authorize")
+                .authorizationRequestRepository(customAuthorizationRequestRepository())
+                .and().successHandler(customAuthenticationSuccessHandler)
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and().authenticationProvider(authenticationProvider())
+                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
+
     }
 
     @Bean
-    public HttpCookieOAuth2AuthorizationRequestRepository cookieAuthorizationRequestRepository() {
-        return new HttpCookieOAuth2AuthorizationRequestRepository();
+    public AuthorizationRequestRepository<OAuth2AuthorizationRequest> customAuthorizationRequestRepository() {
+        return new HttpSessionOAuth2AuthorizationRequestRepository();
     }
 
     @Bean
@@ -100,7 +79,7 @@ public class WebSecurityConfiguration {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService());
+        authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }

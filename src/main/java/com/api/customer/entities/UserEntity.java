@@ -1,14 +1,16 @@
 package com.api.customer.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserEntity {
-    private int userId;
-    private String username;
+    private int id;
     private String email;
     private String imageUrl;
-    private Boolean emailVerified = false;
+    private String name;
     private String password;
-    private String role;
 }
