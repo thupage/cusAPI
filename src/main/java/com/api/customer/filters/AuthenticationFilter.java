@@ -17,8 +17,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.api.customer.utils.TokenUtils;
-
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -34,9 +32,6 @@ import jakarta.servlet.http.HttpServletResponse;
 public class AuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
-    private TokenUtils tokenUtils;
-
-    @Autowired
     private MessageSource messageSource;
 
     private static Logger logger = LoggerFactory.getLogger(AuthenticationFilter.class);
@@ -46,7 +41,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             throws IOException, ServletException {
         String currentUrl = request.getRequestURI();
         if (currentUrl.endsWith("/user/login")) {
-            logger.error(messageSource.getMessage(SUCCESS_MESSAGE, new Object[] { "Get accessToken" }, Locale.ENGLISH));
+            logger.info(messageSource.getMessage(SUCCESS_MESSAGE, new Object[] { "Get accessToken" }, Locale.ENGLISH));
             filterChain.doFilter(request, response);
             return;
         }
@@ -59,7 +54,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         try {
-            if (authHeader != null) {
+            if (authHeader != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(null, null,
                         null);
                 authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
