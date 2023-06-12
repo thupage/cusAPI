@@ -96,7 +96,7 @@ public class CustomerService {
                     messageSource.getMessage(ERROR_MESSAGE_IS_STATUS_INVALID, null, Locale.ENGLISH)));
         }
         customerRepository.batchUpdateCustomerStatus(customerId, status);
-        return new MessageResponse(messageSource.getMessage(SUCCESS_MESSAGE, null, Locale.ENGLISH));
+        return new MessageResponse(messageSource.getMessage(SUCCESS_MESSAGE, new Object[] { "Update" }, Locale.ENGLISH));
     }
 
     /**

@@ -19,4 +19,6 @@ public class ErrorMessages {
     public static final String ERROR_MESSAGE_IS_INVALID = "isInvalid";
     // Error message from resources: isInvalidFormat
     public static final String ERROR_MESSAGE_IS_INVALID_FORMAT = "isInvalidFormat";
+    // Error message from resources: isEmpty
+    public static final String ERROR_MESSAGE_IS_EMPTY = "isEmpty";
 }
