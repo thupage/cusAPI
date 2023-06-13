@@ -1,8 +1,6 @@
 package com.api.customer.model.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * The SearchRequest object contains the search information.
@@ -10,8 +8,6 @@ import lombok.NoArgsConstructor;
  * @author thutrang
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class SearchRequest {
     private String firstName;
     private String lastName;

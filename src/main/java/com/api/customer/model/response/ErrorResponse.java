@@ -1,4 +1,4 @@
-package com.api.customer.exceptions;
+package com.api.customer.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

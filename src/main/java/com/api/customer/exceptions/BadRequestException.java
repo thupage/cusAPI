@@ -3,6 +3,8 @@ package com.api.customer.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.api.customer.model.response.ErrorResponse;
+
 /**
  * Bad Request Exception.
  * 

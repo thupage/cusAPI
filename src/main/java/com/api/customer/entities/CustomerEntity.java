@@ -1,8 +1,6 @@
 package com.api.customer.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Customer Entity.
@@ -10,8 +8,6 @@ import lombok.NoArgsConstructor;
  * @author thutrang
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class CustomerEntity {
     private int customerId;
     private String firstName;
@@ -24,7 +20,7 @@ public class CustomerEntity {
     private String userName;
     private String status;
     private AddressEntity address;
-    private NationalityEntity nationality; 
+    private NationalityEntity nationality;
     private OccupationEntity occupation;
     private String married;
     private String passportNo;

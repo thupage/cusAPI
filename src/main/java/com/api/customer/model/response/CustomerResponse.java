@@ -5,9 +5,7 @@ import com.api.customer.entities.AgencyEntity;
 import com.api.customer.entities.NationalityEntity;
 import com.api.customer.entities.OccupationEntity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * Customer Response.
@@ -15,8 +13,6 @@ import lombok.NoArgsConstructor;
  * @author thutrang
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class CustomerResponse {
     private int customerId;
     private String firstName;

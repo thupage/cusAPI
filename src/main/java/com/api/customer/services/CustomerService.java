@@ -12,16 +12,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.api.customer.entities.CustomerEntity;
 import com.api.customer.exceptions.BadRequestException;
-import com.api.customer.exceptions.ErrorResponse;
 import com.api.customer.exceptions.IdNotFoundException;
 import com.api.customer.model.request.SearchRequest;
 import com.api.customer.model.request.UpdateRequest;
 import com.api.customer.model.response.CustomerResponse;
+import com.api.customer.model.response.ErrorResponse;
 import com.api.customer.model.response.MessageResponse;
 import com.api.customer.model.response.SearchResponse;
 import com.api.customer.repositories.CustomerRepository;
@@ -32,7 +31,6 @@ import com.api.customer.repositories.CustomerRepository;
  * @author thutrang
  */
 @Service
-@Component
 public class CustomerService {
 
     @Autowired
@@ -96,7 +94,8 @@ public class CustomerService {
                     messageSource.getMessage(ERROR_MESSAGE_IS_STATUS_INVALID, null, Locale.ENGLISH)));
         }
         customerRepository.batchUpdateCustomerStatus(customerId, status);
-        return new MessageResponse(messageSource.getMessage(SUCCESS_MESSAGE, new Object[] { "Update" }, Locale.ENGLISH));
+        return new MessageResponse(
+                messageSource.getMessage(SUCCESS_MESSAGE, new Object[] { "Update" }, Locale.ENGLISH));
     }
 
     /**
